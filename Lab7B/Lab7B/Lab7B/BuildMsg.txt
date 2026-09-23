@@ -1,0 +1,36 @@
+Starting MAKE...
+creating project.mk -- no changes
+
+!W C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\Lab7B\Lab7B\Lab7B\main.c(45):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
+
+takes or returns values other than int
+
+!W C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\Lab7B\Lab7B\Lab7B\main.c(45):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
+
+takes or returns values other than int
+
+CAUTION boot.asm is older than boot.tpl or is missing
+
+CAUTION you may need to generate source in PSoC Designer
+
+Linking..
+
+LMM info: area 'InterruptRAM' uses 3 bytes in SRAM bank 0
+
+LMM info: area 'data' item of 25 bytes allocated in SRAM page 0
+
+LMM info: area 'virtual_registers' uses 7 bytes in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+idata dump at output/Lab7B.idata
+
+  ROM 23% full. 3749 out of 16384 bytes used (does not include absolute areas).
+
+  RAM 5% full. 37 bytes used (does not include stack usage).
+
+Built with ICCM8C STD V7.05.00
+
+ 
+Lab7B - 0 error(s) 2 warning(s) 18:07:51
+

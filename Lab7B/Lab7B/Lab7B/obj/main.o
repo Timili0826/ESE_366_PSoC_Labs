@@ -1,0 +1,101 @@
+XH
+H 2 areas 7 global symbols
+M main.c
+S _LCD_1_Start Ref0000
+S _LCD_1_PrString Ref0000
+S __r0 Ref0000
+S __r1 Ref0000
+S _sprintf Ref0000
+S _LCD_1_Init Ref0000
+A text size D2 flags 0
+dbfile ./main.c
+dbfile C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\Lab7B\Lab7B\Lab7B\main.c
+dbfunc e main 0 fV
+dbsym l LCD_data 8 A[100:100]c
+dbsym l asign 6 I
+dbsym l clockphase 4 I
+dbsym l acap 2 I
+dbsym l val 0 I
+dbline FFFFFFFF 0
+dbline A 4
+dbline B 4
+dbline D A
+dbline F C
+dbline 10 10
+dbline 14 16
+dbline 14 16
+dbline 15 27
+dbline 17 2A
+dbline 19 34
+dbline 19 34
+dbline 1B 38
+dbline 1D 41
+dbline 1D 41
+dbline 1E 47
+dbline 20 49
+dbline 21 49
+dbline 22 4F
+dbline 23 4F
+dbline 25 5F
+dbline 25 5F
+dbline 26 65
+dbline 28 67
+dbline 29 67
+dbline 2A 6D
+dbline 2B 6D
+dbline 2D 7D
+dbline 2E A5
+dbline 30 B9
+dbline 32 BE
+dbline 34 C5
+dbline 34 C5
+dbline 35 CB
+dbline 36 CB
+dbline 37 CB
+dbline 12 CB
+dbline FFFFFFFE CD
+dbline 0 D0
+S _main Def0000
+A lit size 2C flags 1
+T 00 00 10 4F 38 6C 56 01 80 56 00 00 71 01 10 7C
+R 00 00 00 00
+T 00 0E 00 00 7C 00 00 20 80 B6 5D DA 62 D0 00 00
+R 00 00 00 00 02 02 00 05 02 05 00 00 43 0E 00 02
+T 00 1B 53 00 00 26 00 00 40 51 00 00 73 39 00 BF
+R 00 00 00 00 03 03 00 02 03 06 00 02 03 0A 00 02
+T 00 26 F0 41 DA BF 71 10 5D 04 70 CF 39 01 B0 98
+R 00 00 00 00
+T 00 34 52 01 60 80 5D 80 53 00 00 47 00 00 40 A0
+R 00 00 00 00 03 09 00 02 03 0C 00 02
+T 00 40 09 56 05 01 56 04 00 80 07 56 05 00 56 04
+R 00 00 00 00
+T 00 4E 00 71 10 5D A8 70 CF 62 D0 00 00 53 00 00
+R 00 00 00 00 43 0B 00 02 03 0E 00 02
+T 00 5A 47 00 00 20 A0 09 56 07 01 56 06 00 80 07
+R 00 00 00 00 03 03 00 02
+T 00 67 56 07 00 56 06 00 71 10 5D A8 70 CF 62 D0
+R 00 00 00 00
+T 00 75 00 00 21 1F 54 03 56 02 00 52 02 08 52 03
+R 00 00 00 00 43 02 00 02
+T 00 82 08 52 06 08 52 07 08 52 04 08 52 05 08 50
+R 00 00 00 00
+T 00 90 00 00 08 50 00 00 08 5A 00 00 06
+R 00 00 00 00 41 02 00 01 01 06 00 01 03 0A 00 03
+T 00 98 00 00 08 50 03 08 51 00 00 08 7C 00 00 38
+R 00 00 00 00 03 02 00 03 03 09 00 03 02 0D 00 04
+T 00 A4 F6 62 D0 00 00 5A 00 00 06 00 00 08 10 50
+R 00 00 00 00 43 05 00 02 03 08 00 03 03 0B 00 03
+T 00 AF 03 08 51 00 00 5C 18 7C 00 00 20 77 01 0F
+R 00 00 00 00 03 05 00 03 02 0A 00 01
+T 00 BC 00 00 B0 0C 3D 01 FF B0 07 56 01 00 56 00
+R 00 00 00 00
+T 00 CA 00 8F 4A 38 94 20 8F FF
+R 00 00 00 00
+T 00 00 46 43 41 50 20 3D 20 33 32 2C 20 43 50 20
+R 00 00 00 01
+T 00 0E 3D 20 25 64 2C 20 0D 0A 41 73 69 67 6E 20
+R 00 00 00 01
+T 00 1C 3D 20 25 64 2C 20 41 43 41 50 20 3D 20 25
+R 00 00 00 01
+T 00 2A 64 00
+R 00 00 00 01
