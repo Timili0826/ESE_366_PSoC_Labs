@@ -1,0 +1,23 @@
+# DO NOT DELETE
+./obj/boot.o : \
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8ssc.inc\
+   C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\LAB7A_~2\LAB7A_~1\LAB7A_~1\lib\GLOBAL~1.INC\
+   C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\LAB7A_~2\LAB7A_~1\LAB7A_~1\memory.inc
+./obj/main.o :  ./lib/PSoCAPI.h ./lib/PSOCGP~1.H ./lib/REFAGN~1.H\
+   ./lib/RefHiMux.h ./lib/RefLoMux.h\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.h
+./lib/obj/psocconfig.o :  ./lib/GLOBAL~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\LAB7A_~2\LAB7A_~1\LAB7A_~1\memory.inc
+./lib/obj/psocconfigtbl.o : \
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc
+./lib/obj/refagndmux.o :  ./lib/REFAGN~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\LAB7A_~2\LAB7A_~1\LAB7A_~1\memory.inc
+./lib/obj/refhimux.o :  ./lib/RefHiMux.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\LAB7A_~2\LAB7A_~1\LAB7A_~1\memory.inc
+./lib/obj/reflomux.o :  ./lib/RefLoMux.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Users\adamr\OneDrive\DOCUME~1\ESE_366\Lab7\LAB7A_~2\LAB7A_~1\LAB7A_~1\memory.inc
