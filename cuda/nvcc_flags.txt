@@ -1,0 +1,11 @@
+cad28107@ubuntu:~/cuda_projects/profile$ nvcc -lineinfo -res-usage sumArraysOnGPU-small-case.cu -o addvector
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z14sumArraysOnGPUPfS_S_' for 'sm_52'
+ptxas info    : Function properties for _Z14sumArraysOnGPUPfS_S_
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 344 bytes cmem[0]
+cad28107@ubuntu:~/cuda_projects/profile$ ./addvector 
+./addvector Starting...
+Vector size 32
+Execution configuration <<<1, 32>>>
+Arrays match.
