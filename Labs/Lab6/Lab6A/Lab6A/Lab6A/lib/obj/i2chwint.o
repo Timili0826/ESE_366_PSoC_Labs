@@ -1,0 +1,221 @@
+XH
+H 3 areas 17 global symbols
+M i2chwint.asm
+A text size 0 flags 0
+dbfile lib/i2chwint.asm
+dbfunc 0 ? 0 I
+dbfile ./lib/I2CHWCommon.inc
+dbfunc 0 ? 0 I
+dbfile lib/i2chwint.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/i2chwint.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc
+dbfunc 0 ? 0 I
+A InterruptRAM size 8 flags 20
+S _I2CHW_bStatus Def0000
+S _pI2CHW_Write_Buf Def0004
+S _pI2CHW_Read_BufHI Def0005
+S _pI2CHW_Read_BufLO Def0006
+S pI2CHW_Read_Buf Def0006
+S I2CHW_Write_Count Def0002
+S _I2CHW_RsrcStatus Def0001
+S pI2CHW_Write_BufHI Def0003
+S pI2CHW_Write_BufLO Def0004
+S _pI2CHW_Read_Buf Def0006
+S _I2CHW_Write_Count Def0002
+S I2CHW_Read_Count Def0007
+S I2CHW_bStatus Def0000
+S _pI2CHW_Write_BufHI Def0003
+S _pI2CHW_Write_BufLO Def0004
+S pI2CHW_Write_Buf Def0004
+S pI2CHW_Read_BufHI Def0005
+S pI2CHW_Read_BufLO Def0006
+S I2CHW_RsrcStatus Def0001
+S _I2CHW_Read_Count Def0007
+A UserModules size 111 flags 0
+dbfile lib/i2chwint.asm
+dbfunc 0 ? 0 I
+dbline D8 0
+dbline E1 1
+dbline E2 2
+dbline 2 3
+dbline 3 5
+dbline FA 6
+dbline FC 9
+dbline FD B
+dbline FF E
+dbline 10A 10
+dbline 10B 13
+dbline 10E 15
+dbline 10F 18
+dbline 114 1A
+dbline 115 1D
+dbline 125 1F
+dbline 126 22
+dbline 12A 24
+dbline 12B 26
+dbline 12D 28
+dbline 12E 2B
+dbline 12F 2D
+dbline 131 2F
+dbline 132 32
+dbline 134 34
+dbline 137 37
+dbline 139 3A
+dbline 3 3C
+dbline 13C 3E
+dbline 13D 40
+dbline 3 42
+dbline 4 44
+dbline 13F 46
+dbline 3 48
+dbline 4 4A
+dbline 141 4C
+dbline 143 4E
+dbline 144 51
+dbline 16 53
+dbline 2 56
+dbline 3 57
+dbline 157 59
+dbline 158 5A
+dbline 3 5B
+dbline 4 5D
+dbline 6 5F
+dbline 162 60
+dbline 163 63
+dbline 164 66
+dbline 167 68
+dbline 16 6B
+dbline 2 6E
+dbline 3 6F
+dbline 172 71
+dbline 173 72
+dbline 3 73
+dbline 4 75
+dbline 6 77
+dbline 1C 78
+dbline 16 7B
+dbline 2 7E
+dbline 3 7F
+dbline 18C 81
+dbline 18D 82
+dbline 3 83
+dbline 4 85
+dbline 6 87
+dbline 196 88
+dbline 197 8A
+dbline 198 8C
+dbline 199 8E
+dbline 1C 91
+dbline 1D2 94
+dbline 1D3 97
+dbline 1D4 9A
+dbline 1E1 9C
+dbline 1E3 9F
+dbline 1E4 A1
+dbline 229 A2
+dbline 3 A4
+dbline 22C A6
+dbline 3 A8
+dbline 4 AA
+dbline 22E AC
+dbline 3 AE
+dbline 4 B0
+dbline 230 B2
+dbline 231 B4
+dbline 232 B6
+dbline 233 B8
+dbline 234 BA
+dbline 239 BC
+dbline 23A BF
+dbline 23B C2
+dbline 249 C4
+dbline 16 C5
+dbline 2 C7
+dbline 3 C8
+dbline 254 CA
+dbline 255 CB
+dbline 3 CC
+dbline 4 CE
+dbline 6 D0
+dbline 25D D1
+dbline 25E D4
+dbline 260 D6
+dbline 263 D8
+dbline 264 D9
+dbline 268 DB
+dbline 269 DE
+dbline 26A E1
+dbline 26D E4
+dbline 16 E7
+dbline 2 EA
+dbline 3 EB
+dbline 278 ED
+dbline 279 EE
+dbline 3 EF
+dbline 4 F1
+dbline 6 F3
+dbline 28A F4
+dbline 28B F7
+dbline 1C FA
+dbline 292 FD
+dbline 297 100
+dbline 2 102
+dbline 29B 105
+dbline 2 107
+dbline 3 108
+dbline 2A2 10A
+dbline 2A3 10B
+dbline 3 10C
+dbline 4 10E
+dbline 6 110
+S _I2CHW_ISR Def0001
+S I2CHW_Poll Def0000
+S _I2CHW_Poll Def0000
+T 00 00 7F 08 10 5D D3 08 49 D6 10 A0 06 49 D7 20
+R 00 00 00 02
+T 00 0E B0 E5 49 D7 08 B0 74 49 D7 04 B0 B8 49 D7
+R 00 00 00 02
+T 00 1C 20 B0 D6 47 00 00 04 B0 14 7A 00 02 C0 39
+R 00 00 00 02 01 06 00 01 01 0C 00 01
+T 00 28 3C 00 02 00 A0 03 80 06 2E 00 00 04 80 04
+R 00 00 00 02 01 03 00 01 01 0B 00 01
+T 00 34 26 00 00 FB 2E 00 01 10 51 00 03 60 D3 58
+R 00 00 00 02 01 03 00 01 01 07 00 01 01 0B 00 01
+T 00 3F 00 04 5D D8 70 3F 71 80 54 00 70 3F 71 00
+R 00 00 00 02 01 02 00 01
+T 00 4C 76 00 04 47 00 00 04 B0 16 62 D7 10 18 60
+R 00 00 00 02 01 03 00 01 01 06 00 01
+T 00 58 D3 20 18 70 3F 71 C0 7E 2E 00 01 20 26
+R 00 00 00 02 01 0B 00 01
+T 00 64 00 01 EF 76 00 02 26 00 00 FB 62 D7 00 18
+R 00 00 00 02 01 02 00 01 01 06 00 01 01 09 00 01
+T 00 6F 60 D3 20 18 70 3F 71 C0 7E 43 D6 10 62 D7
+R 00 00 00 02
+T 00 7D 10 18 60 D3 20 18 70 3F 71 C0 7E 51 00 01
+R 00 00 00 02 01 0E 00 01
+T 00 8A 21 30 A0 07 2E 00 01 40 41 D6 EF 2E 00 01
+R 00 00 00 02 01 07 00 01 01 0E 00 01
+T 00 96 80 49 D8 01 AF DD 26 00 01 FB 50 14 08 51
+R 00 00 00 02 01 09 00 01
+T 00 A3 00 05 60 D3 58 00 06 70 3F 71 80 52 00 70
+R 00 00 00 02 01 02 00 01 01 07 00 01
+T 00 AF 3F 71 00 60 D8 7A 00 07 C0 05 76 00 06 80
+R 00 00 00 02 01 08 00 01 01 0D 00 01
+T 00 BB 09 2E 00 01 02 26 00 01 FE 76 00 07 18 60
+R 00 00 00 02 01 04 00 01 01 08 00 01 01 0C 00 01
+T 00 C6 D7 18 60 D3 20 18 70 3F 71 C0 7E 49 D7 02
+R 00 00 00 02
+T 00 D4 B0 06 50 04 08 8F C8 2E 00 01 01 2E 00 01
+R 00 00 00 02 01 0A 00 01 01 0E 00 01
+T 00 E0 04 26 00 01 7F 26 00 01 7F 62 D7 00 18 60
+R 00 00 00 02 01 04 00 01 01 08 00 01
+T 00 EC D3 20 18 70 3F 71 C0 7E 2E 00 01 40 26
+R 00 00 00 02 01 0B 00 01
+T 00 F8 00 01 7F 41 D6 EF 49 D7 01 A0 06 62 DD FE
+R 00 00 00 02 01 02 00 01
+T 01 05 8F 00 18 60 D3 20 18 70 3F 71 C0 7E
+R 00 00 00 02
