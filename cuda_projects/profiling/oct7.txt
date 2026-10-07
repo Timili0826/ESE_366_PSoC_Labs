@@ -1,0 +1,27 @@
+pass: cad@nvidia123
+
+1. sudo nvpmodel -q: NV Power Mode: 25W; 1;
+
+2. tegrastats -- interval 500 -> GR3D_FREQ (~0% idle)
+
+3. (Budget) ./device_query:
+
+	GPU: Orin
+	SMs: 8
+	Warp size: 32
+	Max thr/block: 1024
+	Shared/block: 48 KB
+	Mem: 4345 / 7607 MB
+
+4. (Events) ./vector_add
+
+	cad28107@ubuntu:~/cuda_projects/profiling$ nvcc --ptxas-options=-v vector_add.cu -o vector_add
+	ptxas info    : 0 bytes gmem
+	ptxas info    : Compiling entry function '_Z6vecAddPfS_S_i' for 'sm_52'
+	ptxas info    : Function properties for _Z6vecAddPfS_S_i
+	    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+	ptxas info    : Used 8 registers, used 0 barriers, 348 bytes cmem[0]
+	cad28107@ubuntu:~/cuda_projects/profiling$ ./vector_add 
+	Kernal time: 0.882912 ms
+	c[100] = 300.000000
+
