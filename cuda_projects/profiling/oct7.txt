@@ -25,3 +25,11 @@ pass: cad@nvidia123
 	Kernal time: 0.882912 ms
 	c[100] = 300.000000
 
+5. (in nsys_tezt.txt)
+
+6. ./memory_stride (Shows timing diff)
+cad28107@ubuntu:~/cuda_projects/profiling$ ./memory_stride 
+stride  1: 0.538240 ms
+stride 32: 6.034272 ms
+
+7. ncu (explains timing diff)
