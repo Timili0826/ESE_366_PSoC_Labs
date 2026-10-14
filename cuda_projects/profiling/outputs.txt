@@ -2,7 +2,7 @@ pass: cad@nvidia123
 
 1. sudo nvpmodel -q: NV Power Mode: 25W; 1;
 
-2. tegrastats -- interval 500 -> GR3D_FREQ (~0% idle)
+2. tegrastats -- interval 500 -> GR3D_FREQ (~0% idle), (~45% under usage (using memory stride)).
 
 3. (Budget) ./device_query:
 
