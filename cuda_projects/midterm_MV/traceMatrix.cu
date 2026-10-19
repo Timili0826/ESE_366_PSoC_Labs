@@ -41,7 +41,7 @@ __global__ void trace(float *g_idata, float *g_odata, int N) {
 int main(int argc, char **argv) {
 
     // 1. Matrix dimensions
-    int N = 1024;
+    int N = 512;
 
     if (argc > 1) {
         N = atoi(argv[1]);
@@ -111,6 +111,7 @@ int main(int argc, char **argv) {
     printf("Number of blocks: %d\n", blocks);
     printf("Matrix trace: %f\n", traceResult);
     printf("Expected trace: %f\n", (float)N);
+    printf("Validation: %s\n", traceResult == (float)N ? "PASS" : "FAIL");
 
     // 8. Free GPU memory
     cudaFree(d_A);

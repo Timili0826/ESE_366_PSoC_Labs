@@ -18,10 +18,15 @@ __global__ void transposeMatrix(const float *A, float *B, int N) {
 int main(int argc, char **argv) {
 
     // 1. Matrix dimensions
-    int N = 1024;
+    int N = 512;
 
     if (argc > 1) {
         N = atoi(argv[1]);
+    }
+
+    if (N <= 0) {
+        printf("Invalid matrix size\n");
+        return 1;
     }
 
     size_t n = (size_t)N * N;
@@ -91,8 +96,10 @@ int main(int argc, char **argv) {
     printf("Block dimensions: %d x %d\n", block.x, block.y);
     printf("Grid dimensions: %d x %d\n", grid.x, grid.y);
 
-    printf("A[1][2] = %f\n", h_A[N + 2]);
-    printf("B[2][1] = %f\n", h_B[2 * N + 1]);
+    if (N > 2) {
+        printf("A[1][2] = %f\n", h_A[N + 2]);
+        printf("B[2][1] = %f\n", h_B[2 * N + 1]);
+    }
 
     if (errors == 0) {
         printf("Validation: PASS\n");
