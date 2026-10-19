@@ -2,22 +2,58 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <cuda_runtime.h>
 
-__global__ void multMatrix(const float *A, const float *B, float *C, int N) {
+#define TILE 16
 
-    int col = blockIdx.x * blockDim.x + threadIdx.x; // (~tranpose operation)
+__global__ void multMatrix(const float *A, const float *B, float *C,
+                           int M, int K, int N) {
+
+    __shared__ float tileA[TILE][TILE];
+    __shared__ float tileB[TILE][TILE];
+
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
     int row = blockIdx.y * blockDim.y + threadIdx.y;
 
-    // Each thread computes one element of C
-    if (row < N && col < N) { // within matrix size
+    int tx = threadIdx.x;
+    int ty = threadIdx.y;
 
-        float sum = 0.0f;
+    float sum = 0.0f;
 
-        for (int k = 0; k < N; k++) {
-            sum += A[row * N + k] * B[k * N + col];
+    // Loop through tiles
+    for (int t = 0; t < (K + TILE - 1) / TILE; t++) {
+
+        int aCol = t * TILE + tx;
+        int bRow = t * TILE + ty;
+
+        // Load A into shared memory
+        if (row < M && aCol < K) {
+            tileA[ty][tx] = A[row * K + aCol];
+        } else {
+            tileA[ty][tx] = 0.0f;
         }
 
+        // Load B into shared memory
+        if (bRow < K && col < N) {
+            tileB[ty][tx] = B[bRow * N + col];
+        } else {
+            tileB[ty][tx] = 0.0f;
+        }
+
+        __syncthreads();
+
+        // Multiply tiles
+        #pragma unroll
+        for (int k = 0; k < TILE; k++) {
+            sum += tileA[ty][k] * tileB[k][tx];
+        }
+
+        __syncthreads();
+    }
+
+    // Store result
+    if (row < M && col < N) {
         C[row * N + col] = sum;
     }
 }
@@ -25,47 +61,64 @@ __global__ void multMatrix(const float *A, const float *B, float *C, int N) {
 int main(int argc, char **argv) {
 
     // 1. Matrix dimensions
+    // A = M x K, B = K x N, C = M x N
+    int M = 512;
+    int K = 512;
     int N = 512;
 
-    if (argc > 1) {
-        N = atoi(argv[1]);
-    }
+    if (argc > 1) M = atoi(argv[1]);
+    if (argc > 2) K = atoi(argv[2]);
+    if (argc > 3) N = atoi(argv[3]);
 
-    if (N <= 0) {
-        printf("Invalid matrix size\n");
+    if (M <= 0 || K <= 0 || N <= 0) {
+        printf("Invalid matrix dimensions\n");
         return 1;
     }
 
-    size_t n = (size_t)N * N;
-    size_t size = n * sizeof(float);
+    size_t nA = (size_t)M * K;
+    size_t nB = (size_t)K * N;
+    size_t nC = (size_t)M * N;
+
+    size_t sizeA = nA * sizeof(float);
+    size_t sizeB = nB * sizeof(float);
+    size_t sizeC = nC * sizeof(float);
 
     // 2. CPU Arrays
-    float *h_A = (float*)malloc(size);
-    float *h_B = (float*)malloc(size);
-    float *h_C = (float*)malloc(size);
+    float *h_A = (float*)malloc(sizeA);
+    float *h_B = (float*)malloc(sizeB);
+    float *h_C = (float*)malloc(sizeC);
 
-    for (size_t i = 0; i < n; i++) {
-        h_A[i] = 1.0f;
-        h_B[i] = 2.0f;
+    if (!h_A || !h_B || !h_C) {
+        printf("CPU memory allocation failed\n");
+        return 1;
+    }
+
+    // Initialize matrices with varying values
+    for (size_t i = 0; i < nA; i++) {
+        h_A[i] = ((int)(i % 17) - 8) * 0.125f;
+    }
+
+    for (size_t i = 0; i < nB; i++) {
+        h_B[i] = ((int)(i % 13) - 6) * 0.125f;
     }
 
     // 3. GPU Arrays
     float *d_A, *d_B, *d_C;
 
-    cudaMalloc(&d_A, size);
-    cudaMalloc(&d_B, size);
-    cudaMalloc(&d_C, size);
+    cudaMalloc(&d_A, sizeA);
+    cudaMalloc(&d_B, sizeB);
+    cudaMalloc(&d_C, sizeC);
 
     // 4. Copy inputs to GPU
-    cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_A, h_A, sizeA, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, h_B, sizeB, cudaMemcpyHostToDevice);
 
     // 5. Configure CUDA grid and blocks
-    dim3 block(16, 16);
+    dim3 block(TILE, TILE);
 
     dim3 grid(
-        (N + block.x - 1) / block.x,
-        (N + block.y - 1) / block.y
+        (N + TILE - 1) / TILE,
+        (M + TILE - 1) / TILE
     );
 
     // 6. Time kernel execution
@@ -75,7 +128,7 @@ int main(int argc, char **argv) {
 
     cudaEventRecord(start);
 
-    multMatrix<<<grid, block>>>(d_A, d_B, d_C, N);
+    multMatrix<<<grid, block>>>(d_A, d_B, d_C, M, K, N);
 
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
@@ -86,24 +139,40 @@ int main(int argc, char **argv) {
     printf("Kernel time: %f ms\n", ms);
 
     // 7. Copy result back to CPU
-    cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_C, d_C, sizeC, cudaMemcpyDeviceToHost);
 
-    // 8. Validate result
-    float expected = 2.0f * N;
+    // 8. Validate result using CPU multiplication
     int errors = 0;
+    int samples = 10;
 
-    for (size_t i = 0; i < n; i++) {
-        if (h_C[i] != expected) {
+    for (int s = 0; s < samples; s++) {
+
+        int row = (int)((long long)s * (M - 1) / samples);
+        int col = (int)((long long)s * (N - 1) / samples);
+
+        float expected = 0.0f;
+
+        for (int k = 0; k < K; k++) {
+            expected += h_A[row * K + k] * h_B[k * N + col];
+        }
+
+        float actual = h_C[row * N + col];
+
+        if (fabsf(actual - expected) >
+            0.001f * fmaxf(1.0f, fabsf(expected))) {
             errors++;
         }
     }
 
-    printf("Matrix size: %d x %d\n", N, N);
+    printf("\nMatrix A: %d x %d\n", M, K);
+    printf("Matrix B: %d x %d\n", K, N);
+    printf("Matrix C: %d x %d\n", M, N);
+
     printf("Block dimensions: %d x %d\n", block.x, block.y);
     printf("Grid dimensions: %d x %d\n", grid.x, grid.y);
 
     printf("C[0] = %f\n", h_C[0]);
-    printf("Expected value = %f\n", expected);
+    printf("Validation samples: %d\n", samples);
 
     if (errors == 0) {
         printf("Validation: PASS\n");
