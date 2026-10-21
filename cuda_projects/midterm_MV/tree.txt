@@ -1,0 +1,46 @@
+.
+├── bin
+│   ├── multiply
+│   ├── sum
+│   ├── trace
+│   └── transpose
+├── eval
+│   ├── benchmark_cuda.py
+│   ├── benchmark_results.csv
+│   ├── multiply_baseline_512_metrics.csv
+│   ├── multiply_baseline_512.ncu-rep
+│   ├── multiply_optimized_512_metrics.csv
+│   ├── multiply_optimized_512.ncu-rep
+│   ├── multiply_timings.png
+│   ├── plot_cuda.py
+│   ├── README.md
+│   ├── sum_timings.png
+│   ├── test.txt
+│   ├── trace_timings.png
+│   └── transpose_timings.png
+├── multiply
+├── multiply_ncu_report.txt
+├── multMatrix.cu
+├── optimized
+│   ├── bin
+│   │   ├── multiply
+│   │   ├── sum
+│   │   ├── trace
+│   │   └── transpose
+│   ├── multiply
+│   ├── multMatrix.cu
+│   ├── sum
+│   ├── sumMatrix.cu
+│   ├── trace
+│   ├── traceMatrix.cu
+│   ├── transpose
+│   └── transposeMatrix.cu
+├── sum
+├── sumMatrix.cu
+├── trace
+├── traceMatrix.cu
+├── transpose
+├── transposeMatrix.cu
+└── tree.txt
+
+4 directories, 39 files

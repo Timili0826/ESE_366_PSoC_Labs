@@ -1,0 +1,7 @@
+python3 eval/benchmark_cuda.py --variant baseline --sizes 256 512 1024 4096
+
+python3 eval/benchmark_cuda.py --variant optimized --sizes 256 512 1024 4096
+
+python3 eval/plot_cuda.py
+
+sudo ncu --set full -o eval/multiply_optimized_512 ./optimized/multiply 512 512 512
