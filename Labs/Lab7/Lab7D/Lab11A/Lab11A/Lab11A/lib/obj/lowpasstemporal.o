@@ -1,0 +1,146 @@
+XH
+H 3 areas 14 global symbols
+M lowpasstemporal.asm
+A text size 0 flags 0
+dbfile lib/lowpasstemporal.asm
+dbfunc 0 ? 0 I
+dbfile LowpassTemporal.inc
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./lib/LowpassTemporal.inc
+dbfunc 0 ? 0 I
+dbfile lib/lowpasstemporal.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/lowpasstemporal.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc
+dbfunc 0 ? 0 I
+A bss size 0 flags 20
+A UserModules size 8D flags 0
+dbfile lib/lowpasstemporal.asm
+dbfunc 0 ? 0 I
+dbline 66 0
+dbline 67 2
+dbline 69 3
+dbline 74 4
+dbline 75 6
+dbline 76 8
+dbline 77 A
+dbline 79 C
+dbline 7A E
+dbline 7B 10
+dbline 7C 12
+dbline 7D 14
+dbline 3 15
+dbline 4 17
+dbline 7F 19
+dbline 96 1A
+dbline 97 1C
+dbline 98 1D
+dbline 99 1E
+dbline 9A 20
+dbline 9B 22
+dbline 9C 24
+dbline 9D 26
+dbline 3 27
+dbline 4 29
+dbline 9F 2B
+dbline A4 2C
+dbline A5 2E
+dbline A6 2F
+dbline A7 30
+dbline A8 32
+dbline A9 34
+dbline AA 36
+dbline AB 38
+dbline 3 39
+dbline 4 3B
+dbline AD 3D
+dbline B2 3E
+dbline B3 40
+dbline B4 41
+dbline B5 42
+dbline B6 44
+dbline B7 46
+dbline B8 48
+dbline B9 4A
+dbline 3 4B
+dbline 4 4D
+dbline BB 4F
+dbline C0 50
+dbline C1 52
+dbline C2 53
+dbline C3 54
+dbline C4 56
+dbline C5 58
+dbline C6 5A
+dbline C7 5C
+dbline 3 5D
+dbline 4 5F
+dbline C9 61
+dbline E2 62
+dbline E3 64
+dbline E5 66
+dbline E7 69
+dbline E9 6A
+dbline EB 6D
+dbline F1 6E
+dbline F2 70
+dbline F4 72
+dbline F6 75
+dbline F8 76
+dbline FA 79
+dbline 111 7A
+dbline 112 7C
+dbline 114 7E
+dbline 116 81
+dbline 118 82
+dbline 11A 85
+dbline 130 86
+dbline 131 89
+dbline 133 8C
+S LowpassTemporal_SetPolarity Def007A
+S _LowpassTemporal_SetPower Def0000
+S LowpassTemporal_SetC1 Def001A
+S LowpassTemporal_SetC2 Def002C
+S LowpassTemporal_SetC3 Def003E
+S LowpassTemporal_SetC4 Def0050
+S LowpassTemporal_Stop Def0086
+S LowpassTemporal_SetCA Def0062
+S LowpassTemporal_SetCB Def006E
+S _LowpassTemporal_SetPolarity Def007A
+S _LowpassTemporal_SetC1 Def001A
+S _LowpassTemporal_SetC2 Def002C
+S _LowpassTemporal_SetC3 Def003E
+S _LowpassTemporal_SetC4 Def0050
+S _LowpassTemporal_Stop Def0086
+S LowpassTemporal_Start Def0000
+S _LowpassTemporal_SetCA Def0062
+S _LowpassTemporal_SetCB Def006E
+S LowpassTemporal_SetPower Def0000
+S _LowpassTemporal_Start Def0000
+T 00 00 21 03 4F 08 5D 9F 21 FC 2B 00 60 9F 5D 9B
+R 00 00 00 02
+T 00 0E 21 FC 2B 00 60 9B 18 70 3F 71 C0 7F 21 1F
+R 00 00 00 02
+T 00 1C 4F 08 5D 9C 21 E0 2B 00 60 9C 18 70 3F 71
+R 00 00 00 02
+T 00 2A C0 7F 21 1F 4F 08 5D 9D 21 E0 2B 00 60 9D
+R 00 00 00 02
+T 00 38 18 70 3F 71 C0 7F 21 1F 4F 08 5D 98 21 E0
+R 00 00 00 02
+T 00 46 2B 00 60 98 18 70 3F 71 C0 7F 21 1F 4F 08
+R 00 00 00 02
+T 00 54 5D 9A 21 E0 2B 00 60 9A 18 70 3F 71 C0 7F
+R 00 00 00 02
+T 00 62 39 01 A0 05 41 9C 7F 7F 43 9C 80 7F 39 01
+R 00 00 00 02
+T 00 70 A0 05 41 98 7F 7F 43 98 80 7F 39 01 A0 05
+R 00 00 00 02
+T 00 7E 43 9C 20 7F 41 9C DF 7F 41 9F FC 41 9B FC
+R 00 00 00 02
+T 00 8C 7F
+R 00 00 00 02

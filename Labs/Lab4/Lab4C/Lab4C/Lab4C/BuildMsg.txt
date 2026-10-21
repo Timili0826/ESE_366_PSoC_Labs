@@ -1,0 +1,28 @@
+Starting MAKE...
+creating project.mk -- no changes
+
+lib/fanpwmint.asm
+
+Linking..
+
+LMM info: area 'data' item of 32 bytes allocated in SRAM page 0
+
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+idata dump at output/Lab4C.idata
+
+  ROM 14% full. 2184 out of 16384 bytes used (does not include absolute areas).
+
+  RAM 7% full. 53 bytes used (does not include stack usage).
+
+Built with ICCM8C STD V7.05.00
+
+ 
+Lab4C - 0 error(s) 0 warning(s) 22:19:57
+

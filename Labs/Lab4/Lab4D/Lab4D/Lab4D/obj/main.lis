@@ -1,0 +1,573 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000           _pulse_width::
+ 0000 00FF              .word 255
+ 0002                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0002                   .dbsym e pulse_width _pulse_width I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _wControlState::
+ 0000 03E8              .word 1000
+ 0002                   .dbsym e wControlState _wControlState I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000                   .dbfunc e main _main fV
+ 0000           _main::
+ 0000                   .dbline -1
+ 0000                   .dbline 18
+ 0000           ; //----------------------------------------------------------------------------
+ 0000           ; // C main line
+ 0000           ; //----------------------------------------------------------------------------
+ 0000           ; 
+ 0000           ; #include <m8c.h>        // part specific constants and macros
+ 0000           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0000           ; #include <stdlib.h>
+ 0000           ; 
+ 0000           ; char string[32];
+ 0000           ; int pulse_width = 255;
+ 0000           ; int pulse_read;
+ 0000           ; int wControlState = 1000;
+ 0000           ; unsigned int wFirstValue, wLastValue, wSpeedRPM;
+ 0000           ; signed char cNumCycles;
+ 0000           ; unsigned char bDataAvailable;
+ 0000           ; 
+ 0000           ; void main(void)
+ 0000           ; {
+ 0000                   .dbline 19
+ 0000           ;       FanPWM_EnableInt();
+ 0000 10                push X
+ 0001 7C0000            xcall _FanPWM_EnableInt
+ 0004 20                pop X
+ 0005                   .dbline 20
+ 0005           ;       M8C_EnableGInt ; // Uncomment this line to enable Global Interrupts
+ 0005 7101                      or  F, 01h
+ 0007           
+ 0007                   .dbline 22
+ 0007           ;       
+ 0007           ;       LCD_Start();
+ 0007 10                push X
+ 0008 7C0000            xcall _LCD_Start
+ 000B 20                pop X
+ 000C                   .dbline 23
+ 000C           ;       FanPWM_WritePulseWidth(pulse_width);
+ 000C 62D000            mov REG[0xd0],>_pulse_width
+ 000F 5101              mov A,[_pulse_width+1]
+ 0011 62D000            mov REG[0xd0],>__r0
+ 0014 10                push X
+ 0015 7C0000            xcall _FanPWM_WritePulseWidth
+ 0018                   .dbline 24
+ 0018           ;       pulse_read = (int)FanPWM_bReadPulseWidth();
+ 0018 7C0000            xcall _FanPWM_bReadPulseWidth
+ 001B 20                pop X
+ 001C 62D000            mov REG[0xd0],>_pulse_read
+ 001F 5301              mov [_pulse_read+1],A
+ 0021 550000            mov [_pulse_read],0
+ 0024                   .dbline 25
+ 0024           ;       itoa(string, pulse_read, 10);
+ 0024 5000              mov A,0
+ 0026 08                push A
+ 0027 500A              mov A,10
+ 0029 08                push A
+ 002A 5100              mov A,[_pulse_read]
+ 002C 08                push A
+ 002D 5101              mov A,[_pulse_read+1]
+ 002F 08                push A
+ 0030 5000              mov A,>_string
+ 0032 08                push A
+ 0033 5000              mov A,<_string
+ 0035 08                push A
+ 0036 7C0000            xcall _itoa
+ 0039 38FA              add SP,-6
+ 003B                   .dbline 26
+ 003B           ;       LCD_Position(0, 0);
+ 003B 10                push X
+ 003C 5000              mov A,0
+ 003E 5700              mov X,0
+ 0040 7C0000            xcall _LCD_Position
+ 0043                   .dbline 27
+ 0043           ;       LCD_PrCString("Pulse Width: ");
+ 0043 5012              mov A,>L2
+ 0045 08                push A
+ 0046 5012              mov A,<L2
+ 0048 5C                mov X,A
+ 0049 18                pop A
+ 004A 7C0000            xcall _LCD_PrCString
+ 004D                   .dbline 28
+ 004D           ;       LCD_PrString(string);
+ 004D 5000              mov A,>_string
+ 004F 08                push A
+ 0050 5000              mov A,<_string
+ 0052 5C                mov X,A
+ 0053 18                pop A
+ 0054 7C0000            xcall _LCD_PrString
+ 0057                   .dbline 29
+ 0057           ;       TachTimer_Start();
+ 0057 7C0000            xcall _TachTimer_Start
+ 005A 20                pop X
+ 005B 8180              xjmp L4
+ 005D           L3:
+ 005D                   .dbline 32
+ 005D           ;       
+ 005D           ;       while (1)
+ 005D           ;       {
+ 005D                   .dbline 33
+ 005D           ;               if (bDataAvailable)
+ 005D 62D000            mov REG[0xd0],>_bDataAvailable
+ 0060 3C0000            cmp [_bDataAvailable],0
+ 0063 A178              jz L6
+ 0065                   .dbline 35
+ 0065           ;               {
+ 0065           ;                       bDataAvailable = ~bDataAvailable;
+ 0065                   .dbline 35
+ 0065 5100              mov A,[_bDataAvailable]
+ 0067 73                cpl A
+ 0068 5300              mov [_bDataAvailable],A
+ 006A                   .dbline 36
+ 006A           ;                       wSpeedRPM = (((45 * 10000000) * cNumCycles) + ((wFirstValue - wLastValue)/2))/(wFirstValue - wLastValue);
+ 006A 62D000            mov REG[0xd0],>_wFirstValue
+ 006D 5101              mov A,[_wFirstValue+1]
+ 006F 62D000            mov REG[0xd0],>_wLastValue
+ 0072 1201              sub A,[_wLastValue+1]
+ 0074 62D000            mov REG[0xd0],>__r0
+ 0077 5300              mov [__r1],A
+ 0079 62D000            mov REG[0xd0],>_wFirstValue
+ 007C 5100              mov A,[_wFirstValue]
+ 007E 62D000            mov REG[0xd0],>_wLastValue
+ 0081 1A00              sbb A,[_wLastValue]
+ 0083 62D000            mov REG[0xd0],>__r0
+ 0086 5300              mov [__r0],A
+ 0088 5100              mov A,[__r1]
+ 008A 5300              mov [__r7],A
+ 008C 5100              mov A,[__r0]
+ 008E 5300              mov [__r6],A
+ 0090 550000            mov [__r5],0
+ 0093 550000            mov [__r4],0
+ 0096 70FB              and F,-5
+ 0098 6E00              rrc [__r0]
+ 009A 6E00              rrc [__r1]
+ 009C 5100              mov A,[__r1]
+ 009E 5300              mov [__r3],A
+ 00A0 5100              mov A,[__r0]
+ 00A2 5300              mov [__r2],A
+ 00A4 550000            mov [__r1],0
+ 00A7 550000            mov [__r0],0
+ 00AA 62D000            mov REG[0xd0],>_cNumCycles
+ 00AD 5100              mov A,[_cNumCycles]
+ 00AF 62D000            mov REG[0xd0],>__r0
+ 00B2 5300              mov [__r9],A
+ 00B4 550000            mov [__r8],0
+ 00B7 470080            tst [__r9],-128
+ 00BA A004              jz X1
+ 00BC 5500FF            mov [__r8],-1
+ 00BF           X1:
+ 00BF 62D000            mov REG[0xd0],>__r0
+ 00C2 5100              mov A,[__r9]
+ 00C4 5300              mov [__r11],A
+ 00C6 5100              mov A,[__r8]
+ 00C8 5300              mov [__r10],A
+ 00CA 470080            tst [__r10],-128
+ 00CD A009              jz X2
+ 00CF 5500FF            mov [__r9],-1
+ 00D2 5500FF            mov [__r8],-1
+ 00D5 800A              jmp X3
+ 00D7           X2:
+ 00D7 62D000            mov REG[0xd0],>__r0
+ 00DA 550000            mov [__r9],0
+ 00DD 550000            mov [__r8],0
+ 00E0           X3:
+ 00E0 62D000            mov REG[0xd0],>__r0
+ 00E3 5100              mov A,[__r8]
+ 00E5 08                push A
+ 00E6 5100              mov A,[__r9]
+ 00E8 08                push A
+ 00E9 5100              mov A,[__r10]
+ 00EB 08                push A
+ 00EC 5100              mov A,[__r11]
+ 00EE 08                push A
+ 00EF 501A              mov A,26
+ 00F1 08                push A
+ 00F2 50D2              mov A,-46
+ 00F4 08                push A
+ 00F5 5074              mov A,116
+ 00F7 08                push A
+ 00F8 5080              mov A,-128
+ 00FA 08                push A
+ 00FB 7C0000            xcall __mul_32X32_32
+ 00FE 38FC              add SP,-4
+ 0100 18                pop A
+ 0101 5300              mov [__r11],A
+ 0103 18                pop A
+ 0104 5300              mov [__r10],A
+ 0106 18                pop A
+ 0107 5300              mov [__r9],A
+ 0109 18                pop A
+ 010A 5300              mov [__r8],A
+ 010C 5100              mov A,[__r11]
+ 010E 0200              add A,[__r3]
+ 0110 5300              mov [__r3],A
+ 0112 5100              mov A,[__r10]
+ 0114 0A00              adc A,[__r2]
+ 0116 5300              mov [__r2],A
+ 0118 5100              mov A,[__r9]
+ 011A 0A00              adc A,[__r1]
+ 011C 5300              mov [__r1],A
+ 011E 5100              mov A,[__r8]
+ 0120 0A00              adc A,[__r0]
+ 0122 5300              mov [__r0],A
+ 0124 5100              mov A,[__r4]
+ 0126 08                push A
+ 0127 5100              mov A,[__r5]
+ 0129 08                push A
+ 012A 5100              mov A,[__r6]
+ 012C 08                push A
+ 012D 5100              mov A,[__r7]
+ 012F 08                push A
+ 0130 5100              mov A,[__r0]
+ 0132 08                push A
+ 0133 5100              mov A,[__r1]
+ 0135 08                push A
+ 0136 5100              mov A,[__r2]
+ 0138 08                push A
+ 0139 5100              mov A,[__r3]
+ 013B 08                push A
+ 013C 7C0000            xcall __divmod_32X32_32
+ 013F 18                pop A
+ 0140 5300              mov [__r3],A
+ 0142 18                pop A
+ 0143 5300              mov [__r2],A
+ 0145 18                pop A
+ 0146 18                pop A
+ 0147 38FC              add SP,-4
+ 0149 5100              mov A,[__r3]
+ 014B 5300              mov [__r1],A
+ 014D 5100              mov A,[__r2]
+ 014F 5300              mov [__r0],A
+ 0151 5100              mov A,[__r1]
+ 0153 08                push A
+ 0154 5100              mov A,[__r0]
+ 0156 62D000            mov REG[0xd0],>_wSpeedRPM
+ 0159 5300              mov [_wSpeedRPM],A
+ 015B 18                pop A
+ 015C 5301              mov [_wSpeedRPM+1],A
+ 015E                   .dbline 37
+ 015E           ;                       LCD_Position(1, 0);
+ 015E 10                push X
+ 015F 5700              mov X,0
+ 0161 5001              mov A,1
+ 0163 7C0000            xcall _LCD_Position
+ 0166 20                pop X
+ 0167                   .dbline 38
+ 0167           ;                       itoa(string, wSpeedRPM, 10);
+ 0167 5000              mov A,0
+ 0169 08                push A
+ 016A 500A              mov A,10
+ 016C 08                push A
+ 016D 62D000            mov REG[0xd0],>_wSpeedRPM
+ 0170 5100              mov A,[_wSpeedRPM]
+ 0172 08                push A
+ 0173 5101              mov A,[_wSpeedRPM+1]
+ 0175 08                push A
+ 0176 5000              mov A,>_string
+ 0178 08                push A
+ 0179 5000              mov A,<_string
+ 017B 08                push A
+ 017C 7C0000            xcall _itoa
+ 017F 38FA              add SP,-6
+ 0181                   .dbline 39
+ 0181           ;                       LCD_PrCString("Speed: ");
+ 0181 10                push X
+ 0182 500A              mov A,>L8
+ 0184 08                push A
+ 0185 500A              mov A,<L8
+ 0187 5C                mov X,A
+ 0188 18                pop A
+ 0189 7C0000            xcall _LCD_PrCString
+ 018C                   .dbline 40
+ 018C           ;                       LCD_PrString(string);
+ 018C 5000              mov A,>_string
+ 018E 08                push A
+ 018F 5000              mov A,<_string
+ 0191 5C                mov X,A
+ 0192 18                pop A
+ 0193 7C0000            xcall _LCD_PrString
+ 0196                   .dbline 41
+ 0196           ;                       LCD_PrCString(" Cycles: ");
+ 0196 5000              mov A,>L9
+ 0198 08                push A
+ 0199 5000              mov A,<L9
+ 019B 5C                mov X,A
+ 019C 18                pop A
+ 019D 7C0000            xcall _LCD_PrCString
+ 01A0 20                pop X
+ 01A1                   .dbline 42
+ 01A1           ;                       itoa(string, (int)cNumCycles, 10);
+ 01A1 5000              mov A,0
+ 01A3 08                push A
+ 01A4 500A              mov A,10
+ 01A6 08                push A
+ 01A7 62D000            mov REG[0xd0],>_cNumCycles
+ 01AA 5100              mov A,[_cNumCycles]
+ 01AC 62D000            mov REG[0xd0],>__r0
+ 01AF 5300              mov [__r1],A
+ 01B1 550000            mov [__r0],0
+ 01B4 470080            tst [__r1],-128
+ 01B7 A004              jz X4
+ 01B9 5500FF            mov [__r0],-1
+ 01BC           X4:
+ 01BC 62D000            mov REG[0xd0],>__r0
+ 01BF 5100              mov A,[__r0]
+ 01C1 08                push A
+ 01C2 5100              mov A,[__r1]
+ 01C4 08                push A
+ 01C5 5000              mov A,>_string
+ 01C7 08                push A
+ 01C8 5000              mov A,<_string
+ 01CA 08                push A
+ 01CB 7C0000            xcall _itoa
+ 01CE 38FA              add SP,-6
+ 01D0                   .dbline 43
+ 01D0           ;                       LCD_PrString(string);
+ 01D0 10                push X
+ 01D1 5000              mov A,>_string
+ 01D3 08                push A
+ 01D4 5000              mov A,<_string
+ 01D6 5C                mov X,A
+ 01D7 18                pop A
+ 01D8 7C0000            xcall _LCD_PrString
+ 01DB 20                pop X
+ 01DC                   .dbline 44
+ 01DC           ;               }
+ 01DC           L6:
+ 01DC                   .dbline 45
+ 01DC           ;       }
+ 01DC           L4:
+ 01DC                   .dbline 31
+ 01DC 8E80              xjmp L3
+ 01DE           X0:
+ 01DE                   .dbline -2
+ 01DE           L1:
+ 01DE                   .dbline 0 ; func end
+ 01DE 8FFF              jmp .
+ 01E0                   .dbend
+ 01E0                   .dbfunc e SleepTimerISR _SleepTimerISR fV
+ 01E0           _SleepTimerISR::
+ 01E0                   .dbline -1
+ 01E0 71C0              or F,-64
+ 01E2 08                push A
+ 01E3 5DD0              mov A,REG[0xd0]
+ 01E5 08                push A
+ 01E6 5DD3              mov A,REG[0xd3]
+ 01E8 08                push A
+ 01E9 5DD4              mov A,REG[0xd4]
+ 01EB 08                push A
+ 01EC 5DD5              mov A,REG[0xd5]
+ 01EE 08                push A
+ 01EF 62D000            mov REG[0xd0],>__r0
+ 01F2 5100              mov A,[__r0]
+ 01F4 08                push A
+ 01F5 5100              mov A,[__r1]
+ 01F7 08                push A
+ 01F8 5100              mov A,[__r2]
+ 01FA 08                push A
+ 01FB 5100              mov A,[__r3]
+ 01FD 08                push A
+ 01FE 5100              mov A,[__r4]
+ 0200 08                push A
+ 0201 5100              mov A,[__r5]
+ 0203 08                push A
+ 0204 5100              mov A,[__r6]
+ 0206 08                push A
+ 0207 5100              mov A,[__r7]
+ 0209 08                push A
+ 020A 5100              mov A,[__r8]
+ 020C 08                push A
+ 020D 5100              mov A,[__r9]
+ 020F 08                push A
+ 0210 5100              mov A,[__r10]
+ 0212 08                push A
+ 0213 5100              mov A,[__r11]
+ 0215 08                push A
+ 0216 5100              mov A,[__rX]
+ 0218 08                push A
+ 0219 5100              mov A,[__rY]
+ 021B 08                push A
+ 021C 5100              mov A,[__rZ]
+ 021E 08                push A
+ 021F                   .dbline 51
+ 021F           ; }
+ 021F           ; 
+ 021F           ; #pragma interrupt_handler SleepTimerISR
+ 021F           ; 
+ 021F           ; void SleepTimerISR(void)
+ 021F           ; {
+ 021F                   .dbline 52
+ 021F           ;       M8C_ClearIntFlag(INT_CLR0, INT_MSK0_SLEEP);
+ 021F 62DABF            mov REG[0xda],-65
+ 0222                   .dbline 54
+ 0222           ;       
+ 0222           ;       if (PRT1DR & 0x01)
+ 0222 5D04              mov A,REG[0x4]
+ 0224 62D000            mov REG[0xd0],>__r0
+ 0227 5300              mov [__r0],A
+ 0229 470001            tst [__r0],1
+ 022C A052              jz L11
+ 022E                   .dbline 56
+ 022E           ;       {
+ 022E           ;               pulse_width--;
+ 022E                   .dbline 56
+ 022E 62D000            mov REG[0xd0],>_pulse_width
+ 0231 7A01              dec [_pulse_width+1]
+ 0233 1E0000            sbb [_pulse_width],0
+ 0236                   .dbline 57
+ 0236           ;               FanPWM_WritePulseWidth(pulse_width);
+ 0236 5101              mov A,[_pulse_width+1]
+ 0238 62D000            mov REG[0xd0],>__r0
+ 023B 10                push X
+ 023C 7C0000            xcall _FanPWM_WritePulseWidth
+ 023F                   .dbline 58
+ 023F           ;               pulse_read = (int)FanPWM_bReadPulseWidth();
+ 023F 7C0000            xcall _FanPWM_bReadPulseWidth
+ 0242 20                pop X
+ 0243 62D000            mov REG[0xd0],>_pulse_read
+ 0246 5301              mov [_pulse_read+1],A
+ 0248 550000            mov [_pulse_read],0
+ 024B                   .dbline 59
+ 024B           ;               itoa(string, pulse_read, 10);
+ 024B 5000              mov A,0
+ 024D 08                push A
+ 024E 500A              mov A,10
+ 0250 08                push A
+ 0251 5100              mov A,[_pulse_read]
+ 0253 08                push A
+ 0254 5101              mov A,[_pulse_read+1]
+ 0256 08                push A
+ 0257 5000              mov A,>_string
+ 0259 08                push A
+ 025A 5000              mov A,<_string
+ 025C 08                push A
+ 025D 7C0000            xcall _itoa
+ 0260 38FA              add SP,-6
+ 0262                   .dbline 60
+ 0262           ;               LCD_Position(0, 0);
+ 0262 10                push X
+ 0263 5000              mov A,0
+ 0265 5700              mov X,0
+ 0267 7C0000            xcall _LCD_Position
+ 026A                   .dbline 61
+ 026A           ;               LCD_PrCString("Pulse Width: ");
+ 026A 5012              mov A,>L2
+ 026C 08                push A
+ 026D 5012              mov A,<L2
+ 026F 5C                mov X,A
+ 0270 18                pop A
+ 0271 7C0000            xcall _LCD_PrCString
+ 0274                   .dbline 62
+ 0274           ;               LCD_PrString(string);
+ 0274 5000              mov A,>_string
+ 0276 08                push A
+ 0277 5000              mov A,<_string
+ 0279 5C                mov X,A
+ 027A 18                pop A
+ 027B 7C0000            xcall _LCD_PrString
+ 027E 20                pop X
+ 027F                   .dbline 63
+ 027F           ;       }
+ 027F           L11:
+ 027F                   .dbline -2
+ 027F           L10:
+ 027F 62D000            mov REG[0xD0],>__r0
+ 0282 18                pop A
+ 0283 5300              mov [__rZ],A
+ 0285 18                pop A
+ 0286 5300              mov [__rY],A
+ 0288 18                pop A
+ 0289 5300              mov [__rX],A
+ 028B 18                pop A
+ 028C 5300              mov [__r11],A
+ 028E 18                pop A
+ 028F 5300              mov [__r10],A
+ 0291 18                pop A
+ 0292 5300              mov [__r9],A
+ 0294 18                pop A
+ 0295 5300              mov [__r8],A
+ 0297 18                pop A
+ 0298 5300              mov [__r7],A
+ 029A 18                pop A
+ 029B 5300              mov [__r6],A
+ 029D 18                pop A
+ 029E 5300              mov [__r5],A
+ 02A0 18                pop A
+ 02A1 5300              mov [__r4],A
+ 02A3 18                pop A
+ 02A4 5300              mov [__r3],A
+ 02A6 18                pop A
+ 02A7 5300              mov [__r2],A
+ 02A9 18                pop A
+ 02AA 5300              mov [__r1],A
+ 02AC 18                pop A
+ 02AD 5300              mov [__r0],A
+ 02AF 18                pop A
+ 02B0 60D5              mov REG[213],A
+ 02B2 18                pop A
+ 02B3 60D4              mov REG[212],A
+ 02B5 18                pop A
+ 02B6 60D3              mov REG[211],A
+ 02B8 18                pop A
+ 02B9 60D0              mov REG[208],A
+ 02BB 18                pop A
+ 02BC                   .dbline 0 ; func end
+ 02BC 7E                reti
+ 02BD                   .dbend
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _bDataAvailable::
+ 0000 00                .byte 0
+ 0001                   .dbsym e bDataAvailable _bDataAvailable c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _cNumCycles::
+ 0000 00                .byte 0
+ 0001                   .dbsym e cNumCycles _cNumCycles C
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _wSpeedRPM::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e wSpeedRPM _wSpeedRPM i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _wLastValue::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e wLastValue _wLastValue i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _wFirstValue::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e wFirstValue _wFirstValue i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _pulse_read::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e pulse_read _pulse_read I
+                        .area data(ram, con, rel)
+ 0000                   .dbfile D:\ESE_366\ESE_36~1\Labs\Lab4\Lab4D\Lab4D\Lab4D\main.c
+ 0000           _string::
+ 0000 00000000000000000000      .word 0,0,0,0,0
+ 000A 00000000000000000000      .word 0,0,0,0,0
+ 0014 00000000000000000000      .word 0,0,0,0,0
+ 001E 0000              .byte 0,0
+ 0020                   .dbsym e string _string A[32:32]c
+                        .area lit(rom, con, rel, lit)
+ 0000           L9:
+ 0000 204379636C65733A2000      .byte 32,'C,'y,'c,'l,'e,'s,58,32,0
+ 000A           L8:
+ 000A 53706565643A2000  .byte 'S,'p,'e,'e,'d,58,32,0
+ 0012           L2:
+ 0012 50756C73652057696474683A2000      .byte 'P,'u,'l,'s,'e,32,'W,'i,'d,'t,'h,58,32,0

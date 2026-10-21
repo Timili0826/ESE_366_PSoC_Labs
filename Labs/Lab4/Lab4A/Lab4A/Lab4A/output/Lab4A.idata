@@ -1,0 +1,5 @@
+flash  9EE SRAM    0:
+ 00 32 bytes
+flash  9F2 SRAM   2F:
+ <size at next line>   0  0  0 FF
+  [size:] 4 bytes

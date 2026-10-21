@@ -1,5 +1,19 @@
 Starting MAKE...
-creating project.mk -- no changes
+creating project.mk 
+
+lib/ezi2c.asm
+
+lib/ezi2cint.asm
+
+lib/psocconfig.asm
+
+lib/psocconfigtbl.asm
+
+lib/scdac.asm
+
+lib/scgain.asm
+
+./boot.asm
 
 Linking..
 
@@ -17,6 +31,10 @@ idata dump at output/Lab7D.idata
 
 Built with ICCM8C STD V7.05.00
 
+Cannot find source file 'C:\Users\mvela\DOCUME~1\SBU\FALL20~2\ESE366~1\ESE_36~2\Lab7\Lab7D\Lab7D\Lab7D\main.c' for generating the .lst listing file
+
+The program executable output is not affected
+
  
-Lab7D - 0 error(s) 0 warning(s) 16:20:43
+Lab7D - 0 error(s) 0 warning(s) 19:46:01
 

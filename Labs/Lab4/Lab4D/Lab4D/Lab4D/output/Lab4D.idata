@@ -1,0 +1,7 @@
+flash  DA2 SRAM    0:
+ 00 32 bytes
+flash  DA6 SRAM   2F:
+ <size at next line>   0 FF  3 E8
+  [size:] 4 bytes
+flash  DAD SRAM   33:
+ 00 10 bytes
