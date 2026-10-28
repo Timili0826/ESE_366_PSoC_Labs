@@ -1,0 +1,230 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000                   .dbfile C:\Users\mvela\DOWNLO~1\Lab8D28\Lab8D28\main.c
+ 0000                   .dbfunc e main _main fV
+ 0000           _main::
+ 0000                   .dbline -1
+ 0000                   .dbline 16
+ 0000           ; #include <m8c.h>
+ 0000           ; #include "PSoCAPI.h"
+ 0000           ; 
+ 0000           ; struct I2C_Regs
+ 0000           ; {
+ 0000           ;     unsigned int wPhase;
+ 0000           ;     unsigned int wPhaseRate;
+ 0000           ;     unsigned char bGainValue;
+ 0000           ; 
+ 0000           ;     unsigned char bCompACapValue;
+ 0000           ;     unsigned char bCompBCapValue;
+ 0000           ; 
+ 0000           ; } MyI2C_Regs;
+ 0000           ; 
+ 0000           ; void main(void)
+ 0000           ; {
+ 0000                   .dbline 20
+ 0000           ;     /* -------------------------
+ 0000           ;        Lab 7D initial values
+ 0000           ;        ------------------------- */
+ 0000           ;     MyI2C_Regs.wPhase = 0;
+ 0000 62D000            mov REG[0xd0],>_MyI2C_Regs
+ 0003 550100            mov [_MyI2C_Regs+1],0
+ 0006 550000            mov [_MyI2C_Regs],0
+ 0009                   .dbline 21
+ 0009           ;     MyI2C_Regs.wPhaseRate = 256;
+ 0009 550300            mov [_MyI2C_Regs+2+1],0
+ 000C 550201            mov [_MyI2C_Regs+2],1
+ 000F                   .dbline 22
+ 000F           ;     MyI2C_Regs.bGainValue = 0x30;
+ 000F 550430            mov [_MyI2C_Regs+4],48
+ 0012                   .dbline 27
+ 0012           ; 
+ 0012           ;     /* -------------------------
+ 0012           ;        Lab 8D comparator values
+ 0012           ;        ------------------------- */
+ 0012           ;     MyI2C_Regs.bCompACapValue = 10;
+ 0012 55050A            mov [_MyI2C_Regs+5],10
+ 0015                   .dbline 28
+ 0015           ;     MyI2C_Regs.bCompBCapValue = 26;
+ 0015 55061A            mov [_MyI2C_Regs+6],26
+ 0018                   .dbline 31
+ 0018           ; 
+ 0018           ;     /* Start modules */
+ 0018           ;     EzI2C_Start();
+ 0018 10                push X
+ 0019 7C0000            xcall _EzI2C_Start
+ 001C                   .dbline 32
+ 001C           ;     Buffer_Start(Buffer_HIGHPOWER);
+ 001C 5003              mov A,3
+ 001E 7C0000            xcall _Buffer_Start
+ 0021                   .dbline 35
+ 0021           ; 
+ 0021           ;     /* 7 bytes total, all writable */
+ 0021           ;     EzI2C_SetRamBuffer(
+ 0021 5000              mov A,>_MyI2C_Regs
+ 0023 08                push A
+ 0024 5000              mov A,<_MyI2C_Regs
+ 0026 08                push A
+ 0027 5007              mov A,7
+ 0029 08                push A
+ 002A 08                push A
+ 002B 7C0000            xcall _EzI2C_SetRamBuffer
+ 002E 38FC              add SP,-4
+ 0030 20                pop X
+ 0031                   .dbline 45
+ 0031           ;         7,
+ 0031           ;         7,
+ 0031           ;         (BYTE *)&MyI2C_Regs
+ 0031           ;     );
+ 0031           ; 
+ 0031           ;     /*
+ 0031           ;        Connect Column 2 comparator LUT
+ 0031           ;        back to SCComp in ASC12
+ 0031           ;     */
+ 0031           ;     AMD_CR0 = (AMD_CR0 & 0x0F) | 0x60;
+ 0031 7110              or F,0x10  ; iopage = 1
+ 0033 5D63              mov A,REG[0x63]
+ 0035 70CF              and F,0xCF      ; iopage = 0
+ 0037 62D000            mov REG[0xd0],>__r0
+ 003A 5300              mov [__r0],A
+ 003C 26000F            and [__r0],15
+ 003F 2E0060            or [__r0],96
+ 0042 5100              mov A,[__r0]
+ 0044 7110              or F,0x10  ; iopage = 1
+ 0046 6063              mov REG[0x63],A
+ 0048                   .dbline 48
+ 0048           ; 
+ 0048           ;     /* VC3 interrupt for Lab 7D sine generator */
+ 0048           ;     M8C_EnableIntMask(INT_MSK0, INT_MSK0_VC3);
+ 0048 70CF              and F,0xCF      ; iopage = 0
+ 004A 43E080            or REG[0xe0],-128
+ 004D                   .dbline 51
+ 004D           ; 
+ 004D           ;     /* Global interrupts */
+ 004D           ;     M8C_EnableGInt;
+ 004D 7101                      or  F, 01h
+ 004F           
+ 004F 8072              xjmp L7
+ 0051           L6:
+ 0051                   .dbline 54
+ 0051           ; 
+ 0051           ;     while(1)
+ 0051           ;     {
+ 0051                   .dbline 56
+ 0051           ;         /* Update sine-generator gain */
+ 0051           ;         if(SCGain_cr0 != MyI2C_Regs.bGainValue)
+ 0051 5D90              mov A,REG[0x90]
+ 0053 62D000            mov REG[0xd0],>_MyI2C_Regs
+ 0056 3A04              cmp A,[_MyI2C_Regs+4]
+ 0058 A005              jz L9
+ 005A                   .dbline 58
+ 005A           ;         {
+ 005A           ;             SCGain_cr0 = MyI2C_Regs.bGainValue;
+ 005A                   .dbline 58
+ 005A 5104              mov A,[_MyI2C_Regs+4]
+ 005C 6090              mov REG[0x90],A
+ 005E                   .dbline 59
+ 005E           ;         }
+ 005E           L9:
+ 005E                   .dbline 65
+ 005E           ; 
+ 005E           ;         /* -------------------------
+ 005E           ;            Update SCComp ACap
+ 005E           ;            lower 5 bits only
+ 005E           ;            ------------------------- */
+ 005E           ;         if((SCComp_cr0 & 0x1F) !=
+ 005E 62D000            mov REG[0xd0],>_MyI2C_Regs
+ 0061 5105              mov A,[_MyI2C_Regs+5]
+ 0063 211F              and A,31
+ 0065 62D000            mov REG[0xd0],>__r0
+ 0068 5300              mov [__r0],A
+ 006A 5D88              mov A,REG[0x88]
+ 006C 5300              mov [__r2],A
+ 006E 26001F            and [__r2],31
+ 0071 5100              mov A,[__r2]
+ 0073 3A00              cmp A,[__r0]
+ 0075 A01A              jz L13
+ 0077                   .dbline 68
+ 0077           ;            (MyI2C_Regs.bCompACapValue & 0x1F))
+ 0077           ;         {
+ 0077           ;             SCComp_cr0 =
+ 0077                   .dbline 68
+ 0077 62D000            mov REG[0xd0],>_MyI2C_Regs
+ 007A 5105              mov A,[_MyI2C_Regs+5]
+ 007C 211F              and A,31
+ 007E 62D000            mov REG[0xd0],>__r0
+ 0081 5300              mov [__r0],A
+ 0083 5D88              mov A,REG[0x88]
+ 0085 5300              mov [__r2],A
+ 0087 2600E0            and [__r2],-32
+ 008A 5100              mov A,[__r2]
+ 008C 2A00              or A,[__r0]
+ 008E 6088              mov REG[0x88],A
+ 0090                   .dbline 71
+ 0090           ;                 (SCComp_cr0 & 0xE0) |
+ 0090           ;                 (MyI2C_Regs.bCompACapValue & 0x1F);
+ 0090           ;         }
+ 0090           L13:
+ 0090                   .dbline 77
+ 0090           ; 
+ 0090           ;         /* -------------------------
+ 0090           ;            Update SCComp BCap
+ 0090           ;            lower 5 bits only
+ 0090           ;            ------------------------- */
+ 0090           ;         if((SCComp_cr1 & 0x1F) !=
+ 0090 62D000            mov REG[0xd0],>_MyI2C_Regs
+ 0093 5106              mov A,[_MyI2C_Regs+6]
+ 0095 211F              and A,31
+ 0097 62D000            mov REG[0xd0],>__r0
+ 009A 5300              mov [__r0],A
+ 009C 5D89              mov A,REG[0x89]
+ 009E 5300              mov [__r2],A
+ 00A0 26001F            and [__r2],31
+ 00A3 5100              mov A,[__r2]
+ 00A5 3A00              cmp A,[__r0]
+ 00A7 A01A              jz L17
+ 00A9                   .dbline 80
+ 00A9           ;            (MyI2C_Regs.bCompBCapValue & 0x1F))
+ 00A9           ;         {
+ 00A9           ;             SCComp_cr1 =
+ 00A9                   .dbline 80
+ 00A9 62D000            mov REG[0xd0],>_MyI2C_Regs
+ 00AC 5106              mov A,[_MyI2C_Regs+6]
+ 00AE 211F              and A,31
+ 00B0 62D000            mov REG[0xd0],>__r0
+ 00B3 5300              mov [__r0],A
+ 00B5 5D89              mov A,REG[0x89]
+ 00B7 5300              mov [__r2],A
+ 00B9 2600E0            and [__r2],-32
+ 00BC 5100              mov A,[__r2]
+ 00BE 2A00              or A,[__r0]
+ 00C0 6089              mov REG[0x89],A
+ 00C2                   .dbline 83
+ 00C2           ;                 (SCComp_cr1 & 0xE0) |
+ 00C2           ;                 (MyI2C_Regs.bCompBCapValue & 0x1F);
+ 00C2           ;         }
+ 00C2           L17:
+ 00C2                   .dbline 84
+ 00C2           ;     }
+ 00C2           L7:
+ 00C2                   .dbline 53
+ 00C2 8F8E              xjmp L6
+ 00C4           X0:
+ 00C4                   .dbline -2
+ 00C4           L1:
+ 00C4                   .dbline 0 ; func end
+ 00C4 8FFF              jmp .
+ 00C6                   .dbend
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\mvela\DOWNLO~1\Lab8D28\Lab8D28\main.c
+ 0000           _MyI2C_Regs::
+ 0000 00000000000000    .byte 0,0,0,0,0,0,0
+ 0007                   .dbstruct 0 7 I2C_Regs
+ 0007                   .dbfield 0 wPhase i
+ 0007                   .dbfield 2 wPhaseRate i
+ 0007                   .dbfield 4 bGainValue c
+ 0007                   .dbfield 5 bCompACapValue c
+ 0007                   .dbfield 6 bCompBCapValue c
+ 0007                   .dbend
+ 0007                   .dbsym e MyI2C_Regs _MyI2C_Regs S[I2C_Regs]

@@ -1,0 +1,44 @@
+Starting MAKE...
+creating project.mk 
+
+lib/buffer.asm
+
+lib/digbuf.asm
+
+lib/digbufint.asm
+
+lib/ezi2c.asm
+
+lib/ezi2cint.asm
+
+lib/psocconfig.asm
+
+lib/psocconfigtbl.asm
+
+lib/sccomp.asm
+
+lib/scdac.asm
+
+lib/scgain.asm
+
+./boot.asm
+
+Linking..
+
+LMM info: area 'InterruptRAM' uses 8 bytes in SRAM bank 0
+
+LMM info: area 'data' item of 5 bytes allocated in SRAM page 0
+
+LMM info: area 'virtual_registers' uses 2 bytes in SRAM page 0
+
+idata dump at output/Lab8C28.idata
+
+  ROM 9% full. 1364 out of 16384 bytes used (does not include absolute areas).
+
+  RAM 2% full. 15 bytes used (does not include stack usage).
+
+Built with ICCM8C STD V7.05.00
+
+ 
+Lab8C28 - 0 error(s) 0 warning(s) 14:13:27
+
