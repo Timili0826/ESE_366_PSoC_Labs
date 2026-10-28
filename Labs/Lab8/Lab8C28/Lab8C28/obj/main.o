@@ -1,0 +1,53 @@
+XH
+H 2 areas 5 global symbols
+M main.c
+S _Buffer_Start Ref0000
+S _EzI2C_Start Ref0000
+S _EzI2C_SetRamBuffer Ref0000
+A text size 43 flags 0
+dbfile ./main.c
+dbfile C:\Users\User\DOCUME~1\PSOCDE~1.4PR\Lab8C28\Lab8C28\main.c
+dbfunc e main 0 fV
+dbline FFFFFFFF 0
+dbline C 0
+dbline E 0
+dbline F 9
+dbline 10 F
+dbline 12 12
+dbline 14 16
+dbline 1B 25
+dbline 1E 2B
+dbline 21 2E
+dbline 24 32
+dbline 25 32
+dbline 27 3B
+dbline 27 3B
+dbline 28 3F
+dbline 29 3F
+dbline 23 3F
+dbline FFFFFFFE 41
+dbline 0 41
+S _main Def0000
+A data size 5 flags 20
+dbfile C:\Users\User\DOCUME~1\PSOCDE~1.4PR\Lab8C28\Lab8C28\main.c
+dbstruct 5 I2C_Regs
+dbfield 0 wPhase i
+dbfield 2 wPhaseRate i
+dbfield 4 bGainValue c
+dbend
+dbsym e MyI2C_Regs 0 S[I2C_Regs]
+S _MyI2C_Regs Def0000
+T 00 00 62 D0 00 00 55 00 01 00 55 00 00 00 55
+R 00 00 00 00 41 04 00 01 01 07 00 01 01 0B 00 01
+T 00 0A 00 03 00 55 00 02 01 55 00 04 30 10 7C
+R 00 00 00 00 01 02 00 01 01 06 00 01 01 0A 00 01
+T 00 14 00 00 50 00 00 08 50 00 00 08 50 05 08 08
+R 00 00 00 00 02 02 00 01 41 05 00 01 01 09 00 01
+T 00 20 7C 00 00 38 FC 50 03 7C 00 00 20 43 E0 80
+R 00 00 00 00 02 03 00 02 02 0A 00 00
+T 00 2E 71 01 80 0E 5D 90 62 D0 00 00 3A 00 04 A0
+R 00 00 00 00 41 0A 00 01 01 0D 00 01
+T 00 3A 05 51 00 04 60 90 8F F2 8F FF
+R 00 00 00 00 01 04 00 01
+T 00 00 00 00 00 00 00
+R 00 00 00 01
