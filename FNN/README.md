@@ -87,9 +87,7 @@ Responsibilities:
 For layer $l$, the weighted input is
 
 $$
-\mathbf{z}^{(l)} =
-\mathbf{W}^{(l)}\mathbf{a}^{(l-1)}
-+ \mathbf{b}^{(l)}
+\mathbf{z}^{(l)} = \mathbf{W}^{(l)}\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}
 $$
 
 The activation is
