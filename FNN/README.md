@@ -1,4 +1,3 @@
-## READ ME ##
 
 # Feedforward Neural Network (FNN)
 
@@ -34,9 +33,9 @@ FNN/
 Implements nonlinear activation functions and their derivatives.
 
 Responsibilities:
-- Sigmoid, ReLU, and tanh activation functions.
-- Derivatives required for backpropagation.
-- Selection of activation functions for individual layers.
+- Implement sigmoid, ReLU, and tanh activation functions.
+- Calculate derivatives required for backpropagation.
+- Support different activation functions for individual layers.
 
 ### Layer (`layer.h`, `layer.c`)
 
@@ -71,7 +70,7 @@ Responsibilities:
 
 ### Main (`main.c`)
 
-Entry point for configuring, training, and evaluating the neural network.
+Serves as the entry point for configuring, training, and evaluating the neural network.
 
 Responsibilities:
 - Define network architecture and activation functions.
@@ -85,39 +84,87 @@ Responsibilities:
 
 ### Forward Propagation
 
-For layer \(l\), the weighted input is
+For layer $l$, the weighted input is
 
-\[
+$$
 \mathbf{z}^{(l)} =
 \mathbf{W}^{(l)}\mathbf{a}^{(l-1)}
 + \mathbf{b}^{(l)}
-\]
+$$
 
 The activation is
 
-\[
+$$
 \mathbf{a}^{(l)} = f(\mathbf{z}^{(l)})
-\]
+$$
 
 where:
-- \(\mathbf{W}^{(l)}\) is the weight matrix.
-- \(\mathbf{b}^{(l)}\) is the bias vector.
-- \(f\) is the activation function.
-- \(\mathbf{a}^{(l-1)}\) is the previous layer's output.
+- $\mathbf{W}^{(l)}$ is the weight matrix.
+- $\mathbf{b}^{(l)}$ is the bias vector.
+- $f$ is the activation function.
+- $\mathbf{a}^{(l-1)}$ is the previous layer's output.
 
 ### Backpropagation
 
 The gradients of the loss function are calculated using the chain rule.
 
-For gradient descent, the weights are updated as
+For the output layer, the error term is
 
-\[
+$$
+\boldsymbol{\delta}^{(L)} =
+\frac{\partial \mathcal{L}}{\partial \mathbf{a}^{(L)}}
+\odot f'(\mathbf{z}^{(L)})
+$$
+
+For hidden layers, the error propagates backward according to
+
+$$
+\boldsymbol{\delta}^{(l)} =
+\left(\mathbf{W}^{(l+1)}\right)^T
+\boldsymbol{\delta}^{(l+1)}
+\odot f'(\mathbf{z}^{(l)})
+$$
+
+where $\odot$ represents element-wise multiplication.
+
+The gradients of the weights and biases are
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} =
+\boldsymbol{\delta}^{(l)}
+\left(\mathbf{a}^{(l-1)}\right)^T
+$$
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} =
+\boldsymbol{\delta}^{(l)}
+$$
+
+### Gradient Descent
+
+The parameters are updated using gradient descent.
+
+For the weights:
+
+$$
 \mathbf{W}^{(l)} \leftarrow
 \mathbf{W}^{(l)} -
-\eta \frac{\partial L}{\partial \mathbf{W}^{(l)}}
-\]
+\eta \frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}}
+$$
 
-where \(\eta\) is the learning rate and \(L\) is the loss function.
+For the biases:
+
+$$
+\mathbf{b}^{(l)} \leftarrow
+\mathbf{b}^{(l)} -
+\eta \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}}
+$$
+
+where:
+- $\eta$ is the learning rate.
+- $\mathcal{L}$ is the loss function.
+- $L$ denotes the final layer.
+- $l$ denotes an individual layer.
 
 ## Program Workflow
 
