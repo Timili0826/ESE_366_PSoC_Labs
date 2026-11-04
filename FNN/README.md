@@ -1,226 +1,43 @@
+# MNIST FNN classifier — pure C baseline
 
-# Feedforward Neural Network (FNN)
+CPU-only reference for ESE 366; CUDA acceleration is **not** implemented yet.
+This is **classification**, not image segmentation. It trains a 784-128-64-10 FNN on MNIST with ReLU hidden activations, raw-logit categorical cross entropy, and mini-batch SGD.
 
-A modular implementation of a fully connected feedforward neural network written in C from scratch.
-
-The project separates neural network components into individual header (`.h`) and source (`.c`) files to support modularity, maintainability, and future development.
-
-## Project Structure
-
-```text
-FNN/
-├── include/
-│   ├── activation.h
-│   ├── layer.h
-│   ├── network.h
-│   └── dataset.h
-├── src/
-│   ├── activation.c
-│   ├── layer.c
-│   ├── network.c
-│   └── dataset.c
-├── data/
-├── experiments/
-├── main.c
-├── Makefile
-└── README.md
-```
-
-## Modules
-
-### Activation (`activation.h`, `activation.c`)
-
-Implements nonlinear activation functions and their derivatives.
-
-Responsibilities:
-- Implement sigmoid, ReLU, and tanh activation functions.
-- Calculate derivatives required for backpropagation.
-- Support different activation functions for individual layers.
-
-### Layer (`layer.h`, `layer.c`)
-
-Defines and manages an individual fully connected neural network layer.
-
-Responsibilities:
-- Initialize and store weight matrices.
-- Initialize and store bias vectors.
-- Allocate and free memory for layer parameters.
-- Maintain intermediate activations and gradients.
-
-### Network (`network.h`, `network.c`)
-
-Defines the overall neural network architecture and manages interactions between layers.
-
-Responsibilities:
-- Initialize networks with configurable layer sizes.
-- Perform forward propagation through successive layers.
-- Calculate gradients using backpropagation.
-- Update weights and biases using gradient descent.
-- Generate predictions from trained parameters.
-
-### Dataset (`dataset.h`, `dataset.c`)
-
-Manages the data used during training and evaluation.
-
-Responsibilities:
-- Store input features and target outputs.
-- Load datasets from external files.
-- Shuffle training samples.
-- Provide training and testing examples.
-
-### Main (`main.c`)
-
-Serves as the entry point for configuring, training, and evaluating the neural network.
-
-Responsibilities:
-- Define network architecture and activation functions.
-- Configure learning rate, epochs, and other hyperparameters.
-- Initialize the network and dataset.
-- Execute the training loop.
-- Monitor training loss and evaluate predictions.
-- Release allocated memory.
-
-## Neural Network Mathematics
-
-### Forward Propagation
-
-For layer $l$, the weighted input is
-
-$$
-\mathbf{z}^{(l)} = \mathbf{W}^{(l)}\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}
-$$
-
-The activation is
-
-$$
-\mathbf{a}^{(l)} = f(\mathbf{z}^{(l)})
-$$
-
-where:
-- $\mathbf{W}^{(l)}$ is the weight matrix.
-- $\mathbf{b}^{(l)}$ is the bias vector.
-- $f$ is the activation function.
-- $\mathbf{a}^{(l-1)}$ is the previous layer's output.
-
-### Backpropagation
-
-The gradients of the loss function are calculated using the chain rule.
-
-For the output layer, the error term is
-
-$$
-\boldsymbol{\delta}^{(L)} =
-\frac{\partial \mathcal{L}}{\partial \mathbf{a}^{(L)}}
-\odot f'(\mathbf{z}^{(L)})
-$$
-
-For hidden layers, the error propagates backward according to
-
-$$
-\boldsymbol{\delta}^{(l)} =
-\left(\mathbf{W}^{(l+1)}\right)^T
-\boldsymbol{\delta}^{(l+1)}
-\odot f'(\mathbf{z}^{(l)})
-$$
-
-where $\odot$ represents element-wise multiplication.
-
-The gradients of the weights and biases are
-
-$$
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} =
-\boldsymbol{\delta}^{(l)}
-\left(\mathbf{a}^{(l-1)}\right)^T
-$$
-
-$$
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} =
-\boldsymbol{\delta}^{(l)}
-$$
-
-### Gradient Descent
-
-The parameters are updated using gradient descent.
-
-For the weights:
-
-$$
-\mathbf{W}^{(l)} \leftarrow
-\mathbf{W}^{(l)} -
-\eta \frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}}
-$$
-
-For the biases:
-
-$$
-\mathbf{b}^{(l)} \leftarrow
-\mathbf{b}^{(l)} -
-\eta \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}}
-$$
-
-where:
-- $\eta$ is the learning rate.
-- $\mathcal{L}$ is the loss function.
-- $L$ denotes the final layer.
-- $l$ denotes an individual layer.
-
-## Program Workflow
-
-```text
-main.c
-   |
-   +-- dataset.c
-   |      Load and prepare training data
-   |
-   +-- network.c
-   |      Initialize neural network
-   |      |
-   |      +-- layer.c
-   |      |      Allocate weights and biases
-   |      |
-   |      +-- activation.c
-   |             Evaluate activation functions
-   |
-   +-- Training Loop
-   |      |
-   |      +-- Forward Propagation
-   |      +-- Loss Calculation
-   |      +-- Backpropagation
-   |      +-- Gradient Descent
-   |
-   +-- Evaluation
-   |
-   +-- Memory Cleanup
-```
-
-## Compilation
-
-Compile the project using the Makefile:
+## Build and run (Linux)
 
 ```bash
+bash scripts/download_mnist.sh
 make
+make run
 ```
 
-Run the neural network:
+To adjust training without recompiling:
 
 ```bash
-./fnn
+./fnn data/mnist 10 0.01 32
 ```
 
-Remove generated object files and executables:
+Arguments: dataset directory, epochs, learning rate, batch size. Defaults are 5, 0.01, and 32. For train/validation ratio and layer sizes, edit `main.c` and rebuild with `make`.
 
-```bash
-make clean
-```
+Training set: 80% of original MNIST train split, validation: remaining 20%, held-out MNIST test: 10,000 samples. Both have their original separate images/labels; split uses a fixed random seed. The sample indices are shuffled each epoch.
 
-## Future Development
+## Outputs
 
-Additional modules may be implemented as the project expands:
+- `outputs/metrics.csv`: epoch, training/validation loss and accuracy.
+- `outputs/predictions.csv`: first 40 test sample true/predicted classes.
+- `outputs/test_digits.pgm`: first 40 test images arranged as a grid; labels are in the CSV in left-to-right, top-to-bottom order. Open PGM in an image viewer or convert with ImageMagick: `magick outputs/test_digits.pgm outputs/test_digits.png`.
 
-- `loss.h` / `loss.c`: MSE and cross-entropy loss functions.
-- `optimizer.h` / `optimizer.c`: SGD, momentum, and Adam optimizers.
-- `matrix.h` / `matrix.c`: Matrix multiplication and linear algebra operations.
-- `serialization.h` / `serialization.c`: Save and load trained weights.
-- `metrics.h` / `metrics.c`: Accuracy, precision, recall, and other evaluation metrics.
+Training uses per-sample forward/backward passes and accumulates gradients for each mini-batch. CPU reference code prioritizes readability rather than speed.
 
-The long-term objective is to develop a configurable neural network framework in C with independently implemented mathematical operations, training algorithms, and model architectures.
+## Implementation notes
+
+- `activation.c`: ReLU/Tanh/Sigmoid/GELU plus numerical-stability-aware Softmax utility.
+- `layer.c`: dense matrix-vector layer, gradients, SGD step.
+- `loss.c`: stable softmax-cross-entropy on raw logits (no sigmoid on output).
+- `network.c`: layer orchestration and backpropagation.
+- `dataset.c`: direct IDX binary reader (no Python/Pillow dependency).
+- `visualization.c`: PGM grid, plus predictions CSV generated in `main.c`.
+
+## Next steps
+
+After validating CPU accuracy, use your Project 1 CUDA matrix operations for batched dense layers and compare kernel configurations on Jetson Orin Nano. Also add model checkpointing for incremental retraining, since that requirement is **not yet implemented** here.
