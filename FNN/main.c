@@ -16,8 +16,8 @@
 #define LEARNING_RATE 0.01f
 #define BATCH_SIZE 32
 #define TRAIN_RATIO 0.8f
-#define SEED 42u
-#define PREDICTION_SAMPLES 40
+#define SEED 39u
+#define PREDICTION_SAMPLES 100
 
 
 static void usage(const char *prog)
