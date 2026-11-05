@@ -27,6 +27,14 @@ Training set: 80% of original MNIST train split, validation: remaining 20%, held
 - `outputs/predictions.csv`: first 40 test sample true/predicted classes.
 - `outputs/test_digits.pgm`: first 40 test images arranged as a grid; labels are in the CSV in left-to-right, top-to-bottom order. Open PGM in an image viewer or convert with ImageMagick: `magick outputs/test_digits.pgm outputs/test_digits.png`.
 
+To view figures:
+
+```bash
+xdg-open outputs/figures/accuracy.svg
+xdg-open outputs/figures/loss.svg
+xdg-open outputs/test_digits.pgm
+```
+
 Training uses per-sample forward/backward passes and accumulates gradients for each mini-batch. CPU reference code prioritizes readability rather than speed.
 
 ## Implementation notes

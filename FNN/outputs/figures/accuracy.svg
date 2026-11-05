@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500">
+<rect width="100%" height="100%" fill="white"/>
+<text x="400" y="28" text-anchor="middle" font-size="20" font-family="Arial">Training and Validation Accuracy</text>
+<path d="M80 50 V400 H730" fill="none" stroke="black" stroke-width="2"/>
+<line x1="80" y1="400.00" x2="730" y2="400.00" stroke="#dddddd"/>
+<text x="70" y="404.00" text-anchor="end" font-size="12">0.000</text>
+<line x1="80" y1="330.00" x2="730" y2="330.00" stroke="#dddddd"/>
+<text x="70" y="334.00" text-anchor="end" font-size="12">0.200</text>
+<line x1="80" y1="260.00" x2="730" y2="260.00" stroke="#dddddd"/>
+<text x="70" y="264.00" text-anchor="end" font-size="12">0.400</text>
+<line x1="80" y1="190.00" x2="730" y2="190.00" stroke="#dddddd"/>
+<text x="70" y="194.00" text-anchor="end" font-size="12">0.600</text>
+<line x1="80" y1="120.00" x2="730" y2="120.00" stroke="#dddddd"/>
+<text x="70" y="124.00" text-anchor="end" font-size="12">0.800</text>
+<line x1="80" y1="50.00" x2="730" y2="50.00" stroke="#dddddd"/>
+<text x="70" y="54.00" text-anchor="end" font-size="12">1.000</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="2.5" points="80.00,84.96 114.21,78.27 148.42,73.73 182.63,71.12 216.84,68.64 251.05,66.19 285.26,65.36 319.47,64.12 353.68,62.69 387.89,61.92 422.11,60.92 456.32,60.91 490.53,59.52 524.74,59.17 558.95,58.32 593.16,58.17 627.37,57.88 661.58,57.07 695.79,56.64 730.00,56.28 "/>
+<polyline fill="none" stroke="#dc2626" stroke-width="2.5" points="80.00,80.36 114.21,75.23 148.42,71.76 182.63,69.80 216.84,67.09 251.05,65.05 285.26,64.20 319.47,63.48 353.68,62.19 387.89,61.35 422.11,61.81 456.32,61.87 490.53,60.97 524.74,60.41 558.95,60.50 593.16,60.21 627.37,60.21 661.58,59.62 695.79,58.90 730.00,58.95 "/>
+<text x="400" y="455" text-anchor="middle" font-size="15">Epoch</text>
+<text x="20" y="230" text-anchor="middle" font-size="15" transform="rotate(-90 20 230)">Accuracy</text>
+<line x1="290" y1="475" x2="320" y2="475" stroke="#2563eb" stroke-width="3"/>
+<text x="325" y="480" font-size="13">Training</text>
+<line x1="425" y1="475" x2="455" y2="475" stroke="#dc2626" stroke-width="3"/>
+<text x="460" y="480" font-size="13">Validation</text>
+</svg>
