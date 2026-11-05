@@ -1,51 +1,134 @@
-# MNIST FNN classifier — pure C baseline
+# Feedforward Neural Network (FNN) in C
 
-CPU-only reference for ESE 366; CUDA acceleration is **not** implemented yet.
-This is **classification**, not image segmentation. It trains a 784-128-64-10 FNN on MNIST with ReLU hidden activations, raw-logit categorical cross entropy, and mini-batch SGD.
+A fully connected neural network implemented from scratch in C for MNIST handwritten digit classification. This is the CPU baseline for ESE 366, with CUDA acceleration planned.
 
-## Build and run (Linux)
+Architecture: **784 → 128 → 64 → 10**  
+Training: ReLU, cross-entropy loss, mini-batch SGD.
+
+## 1. Setup
+
+Download the MNIST dataset:
 
 ```bash
 bash scripts/download_mnist.sh
+```
+
+Install Python dependencies for visualization:
+
+```bash
+python3 -m pip install numpy matplotlib pillow
+```
+
+## 2. Compile and Train
+
+Compile the C implementation:
+
+```bash
 make
+```
+
+Train with default parameters:
+
+```bash
 make run
 ```
 
-To adjust training without recompiling:
+Alternatively, specify training parameters:
 
 ```bash
-./fnn data/mnist 10 0.01 32
+./fnn data/mnist 20 0.01 32
 ```
 
-Arguments: dataset directory, epochs, learning rate, batch size. Defaults are 5, 0.01, and 32. For train/validation ratio and layer sizes, edit `main.c` and rebuild with `make`.
+Arguments:
 
-Training set: 80% of original MNIST train split, validation: remaining 20%, held-out MNIST test: 10,000 samples. Both have their original separate images/labels; split uses a fixed random seed. The sample indices are shuffled each epoch.
+```text
+./fnn [dataset_directory] [epochs] [learning_rate] [batch_size]
+```
 
-## Outputs
+Default parameters:
 
-- `outputs/metrics.csv`: epoch, training/validation loss and accuracy.
-- `outputs/predictions.csv`: first 40 test sample true/predicted classes.
-- `outputs/test_digits.pgm`: first 40 test images arranged as a grid; labels are in the CSV in left-to-right, top-to-bottom order. Open PGM in an image viewer or convert with ImageMagick: `magick outputs/test_digits.pgm outputs/figures/test_digits.png`.
+| Parameter | Value |
+|-----------|-------|
+| Epochs | 20 |
+| Learning rate | 0.01 |
+| Batch size | 32 |
+| Training split | 80% |
+| Validation split | 20% |
+| Random seed | 42 |
 
-To view figures:
+To change the network architecture, dataset split, or number of saved predictions, edit `main.c` and rebuild with `make`.
+
+## 3. Generate Figures
+
+After training, run:
 
 ```bash
-xdg-open outputs/figures/accuracy.svg
-xdg-open outputs/figures/loss.svg
-xdg-open outputs/test_digits.pgm
+./scripts/plot.sh
 ```
 
-Training uses per-sample forward/backward passes and accumulates gradients for each mini-batch. CPU reference code prioritizes readability rather than speed.
+Or directly:
 
-## Implementation notes
+```bash
+python3 scripts/plot.py
+```
 
-- `activation.c`: ReLU/Tanh/Sigmoid/GELU plus numerical-stability-aware Softmax utility.
-- `layer.c`: dense matrix-vector layer, gradients, SGD step.
-- `loss.c`: stable softmax-cross-entropy on raw logits (no sigmoid on output).
-- `network.c`: layer orchestration and backpropagation.
-- `dataset.c`: direct IDX binary reader (no Python/Pillow dependency).
-- `visualization.c`: PGM grid, plus predictions CSV generated in `main.c`.
+This generates:
 
-## Next steps
+- Training and validation accuracy curves.
+- Training and validation loss curves.
+- Representative correct and incorrect classifications.
+- A PNG contact sheet of the selected MNIST digits.
 
-After validating CPU accuracy, use your Project 1 CUDA matrix operations for batched dense layers and compare kernel configurations on Jetson Orin Nano. Also add model checkpointing for incremental retraining, since that requirement is **not yet implemented** here.
+The contact sheet retains 10 columns regardless of sample count.
+
+## 4. View Results
+
+Open the MNIST digit grid:
+
+```bash
+xdg-open outputs/test_digits.png
+```
+
+Open the scientific figures:
+
+```bash
+xdg-open outputs/figures/accuracy.pdf
+xdg-open outputs/figures/loss.pdf
+xdg-open outputs/figures/classifications.pdf
+```
+
+Figures are exported as PNG, PDF, and SVG.
+
+## 5. Output Files
+
+| File | Description |
+|------|-------------|
+| `outputs/metrics.csv` | Training and validation metrics |
+| `outputs/predictions.csv` | True and predicted digit labels |
+| `outputs/test_digits.pgm` | Original MNIST contact sheet |
+| `outputs/test_digits.png` | PNG version of the contact sheet |
+| `outputs/figures/accuracy.*` | Accuracy versus epoch |
+| `outputs/figures/loss.*` | Cross-entropy loss versus epoch |
+| `outputs/figures/classifications.*` | Correct and incorrect classification examples |
+
+The complete MNIST test set (10,000 images) is used for final evaluation. Saved prediction examples are a selected subset for visualization.
+
+## 6. Quick Workflow
+
+For subsequent experiments:
+
+```bash
+make
+./fnn data/mnist 20 0.01 32
+./scripts/plot.sh
+```
+
+The training and visualization results are saved automatically under `outputs/`.
+
+## 7. Future Work
+
+- CUDA acceleration of dense layers and backpropagation.
+- CPU/GPU execution-time comparison.
+- Model checkpointing.
+- Confusion matrices and per-class accuracy analysis.
+```
