@@ -54,7 +54,7 @@ Default parameters:
 | Batch size | 32 |
 | Training split | 80% |
 | Validation split | 20% |
-| Random seed | 42 |
+| Random seed | 39 |
 
 To change the network architecture, dataset split, or number of saved predictions, edit `main.c` and rebuild with `make`.
 
