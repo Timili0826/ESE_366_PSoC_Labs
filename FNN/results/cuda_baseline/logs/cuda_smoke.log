@@ -1,0 +1,13 @@
+GPU: Orin | CC 8.7 | SMs 8
+Training 48000, validation 12000, test 10000 | 28x28 | architecture 784-128-64-10
+FP32; SGD lr=0.01; batch=32; seed=39; threads/block=128
+Epoch 1/1 online_train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% train_GPU 609.87ms eval_wall 0.27s epoch_wall 0.88s
+Test loss 0.3474 | test accuracy 90.32%
+Train + epoch evaluations wall: 0.88s
+Final test wall: 0.04s
+Total wall before cleanup (includes loading/setup/warm-up/export): 1.20s
+Saved results under ../outputs/cuda_smoke
+This baseline does not yet save model weights or resume training.
+real 1.27
+user 0.55
+sys 0.65

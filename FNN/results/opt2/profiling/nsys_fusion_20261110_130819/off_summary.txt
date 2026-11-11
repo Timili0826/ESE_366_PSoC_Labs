@@ -1,0 +1,51 @@
+Generating SQLite file /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/nsys_opt2_bg_20261110_130819/off.sqlite from /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/nsys_opt2_bg_20261110_130819/off.nsys-rep
+Processing [/home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/nsys_opt2_bg_20261110_130819/off.sqlite] with [/opt/nvidia/nsight-systems/2024.5.4/host-linux-armv8/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)  Med (ns)  Min (ns)  Max (ns)  StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  --------  --------  --------  --------  -----------  ----------------------------------------------------------------------------------------------------
+     61.5      457,363,520     17,083  26,773.0  13,152.0     5,664   205,088     26,304.8  matmul_naive(const float *, const float *, float *, int, int, int, bool, bool)                      
+      7.5       55,650,016     11,079   5,023.0   5,024.0     4,096    13,312        713.3  bias_activation(float *, float *, const float *, int, int, bool)                                    
+      7.3       54,514,944      9,000   6,057.2   4,128.0     3,232    46,208      4,547.4  sgd_update(float *, const float *, unsigned long, float, float)                                     
+      6.5       48,109,952      3,693  13,027.3  12,768.0     7,136    28,800      1,825.5  gather_batch(const float *, const unsigned char *, const int *, int, int, int, float *, unsigned ch…
+      5.1       37,872,480      3,688  10,269.1  10,048.0     6,848    25,888      1,476.1  accumulate_metrics(const float *, const int *, const unsigned char *, double *, int)                
+      4.3       31,917,280      3,693   8,642.6   8,416.0     8,160    20,864      1,255.4  loss_gradient(const float *, const unsigned char *, float *, float *, int *, int, int)              
+      3.1       22,712,352      4,503   5,043.8   4,928.0     4,416    12,736      1,080.0  bias_gradient(const float *, float *, int, int)                                                     
+      2.9       21,558,944      1,501  14,363.1  13,600.0    13,184    36,544      3,027.5  void matmul_tiled<(int)16>(const float *, const float *, float *, int, int, int, bool, bool)        
+      1.9       14,488,768      3,002   4,826.4   4,512.0     4,128    12,096        979.6  activation_backward(const float *, float *, int)                                                    
+
+Processing [/home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/nsys_opt2_bg_20261110_130819/off.sqlite] with [/opt/nvidia/nsight-systems/2024.5.4/host-linux-armv8/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)      Med (ns)     Min (ns)    Max (ns)   StdDev (ns)            Name         
+ --------  ---------------  ---------  ------------  ------------  ----------  ----------  ------------  ----------------------
+     78.8      787,856,128     57,242      13,763.6       7,648.0       5,632   1,993,280      29,287.3  cudaLaunchKernel      
+     10.7      107,271,392         31   3,460,367.5       4,992.0       3,072  83,148,448  15,094,220.3  cudaMalloc            
+      8.3       83,300,544         20   4,165,027.2     155,216.0      18,112  31,214,784   8,268,685.3  cudaMemcpy            
+      1.3       12,513,024          1  12,513,024.0  12,513,024.0  12,513,024  12,513,024           0.0  cudaEventSynchronize  
+      0.8        7,862,496         31     253,628.9       5,472.0       2,944   6,081,888   1,107,032.4  cudaFree              
+      0.1        1,282,624          2     641,312.0     641,312.0      16,096   1,266,528     884,188.9  cudaDeviceSynchronize 
+      0.0          122,944          4      30,736.0      29,088.0      23,104      41,664       8,763.9  cudaMemset            
+      0.0           86,176          2      43,088.0      43,088.0      13,056      73,120      42,471.7  cudaEventRecord       
+      0.0           18,496          2       9,248.0       9,248.0       1,376      17,120      11,132.7  cudaEventCreate       
+      0.0            8,864          2       4,432.0       4,432.0       1,152       7,712       4,638.6  cudaEventDestroy      
+      0.0            3,456          1       3,456.0       3,456.0       3,456       3,456           0.0  cuModuleGetLoadingMode
+
+Processing [/home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/nsys_opt2_bg_20261110_130819/off.sqlite] with [/opt/nvidia/nsight-systems/2024.5.4/host-linux-armv8/reports/cuda_kern_exec_sum.py]... 
+
+ ** CUDA Kernel Launch & Exec Time Summary (cuda_kern_exec_sum):
+
+  PID     TID    DevId  Count   QCount   TAvg (ns)     TMed (ns)    TMin (ns)  TMax (ns)   TStdDev (ns)  AAvg (ns)  AMed (ns)  AMin (ns)  AMax (ns)  AStdDev (ns)   QAvg (ns)     QMed (ns)    QMin (ns)  QMax (ns)   QStdDev (ns)  KAvg (ns)  KMed (ns)  KMin (ns)  KMax (ns)  KStdDev (ns)      API Name                                                  Kernel Name                                             
+ ------  ------  -----  ------  ------  ------------  ------------  ---------  ----------  ------------  ---------  ---------  ---------  ---------  ------------  ------------  ------------  ---------  ----------  ------------  ---------  ---------  ---------  ---------  ------------  ----------------  ----------------------------------------------------------------------------------------------------
+ 62,661  62,661      0   9,000   9,000  13,023,408.0  12,631,424.0  1,158,400  25,278,720   2,234,469.6    9,649.9    7,552.0      6,144    679,520      19,264.2  13,007,700.8  12,616,224.0  1,099,936  25,264,928   2,232,915.7    6,057.2    4,128.0      3,232     46,208       4,547.4  cudaLaunchKernel  sgd_update(float *, const float *, unsigned long, float, float)                                     
+ 62,661  62,661      0   4,503   4,503  12,971,908.4  12,575,424.0    918,752  25,237,248   2,253,107.0    8,412.0    7,456.0      5,952    669,312      19,302.7  12,958,452.6  12,562,912.0    902,496  25,220,416   2,252,193.2    5,043.8    4,928.0      4,416     12,736       1,080.0  cudaLaunchKernel  bias_gradient(const float *, float *, int, int)                                                     
+ 62,661  62,661      0   1,501   1,501  12,954,508.9  12,570,688.0    975,520  25,090,240   2,251,892.5    9,843.1    8,576.0      6,144    665,088      23,399.6  12,930,302.8  12,548,320.0    938,336  25,056,768   2,249,416.8   14,363.1   13,600.0     13,184     36,544       3,027.5  cudaLaunchKernel  void matmul_tiled<(int)16>(const float *, const float *, float *, int, int, int, bool, bool)        
+ 62,661  62,661      0  17,083  17,083  12,951,590.4  12,624,672.0     60,096  25,411,360   2,914,103.4   18,123.9    7,840.0      5,696  1,993,280      36,055.3  12,906,693.5  12,591,488.0      3,104  25,083,968   2,908,484.0   26,773.0   13,152.0      5,664    205,088      26,304.8  cudaLaunchKernel  matmul_naive(const float *, const float *, float *, int, int, int, bool, bool)                      
+ 62,661  62,661      0   3,002   3,002  12,949,053.0  12,565,856.0    932,288  25,094,720   2,250,926.7   10,333.9    8,000.0      6,016    669,920      20,434.8  12,933,892.7  12,551,232.0    911,168  25,079,648   2,249,634.6    4,826.4    4,512.0      4,128     12,096         979.6  cudaLaunchKernel  activation_backward(const float *, float *, int)                                                    
+ 62,661  62,661      0   3,688   3,688  12,932,122.5  13,056,480.0    282,944  25,025,184   3,167,417.9    8,826.4    7,392.0      5,984    909,664      25,845.5  12,913,027.0  13,031,456.0    265,280  24,998,080   3,165,900.3   10,269.1   10,048.0      6,848     25,888       1,476.1  cudaLaunchKernel  accumulate_metrics(const float *, const int *, const unsigned char *, double *, int)                
+ 62,661  62,661      0  11,079  11,079  12,926,433.2  13,069,536.0     59,104  24,997,152   3,210,108.6   10,331.6    7,520.0      5,632    963,296      23,623.4  12,911,078.5  13,045,472.0     46,688  24,981,696   3,208,568.7    5,023.0    5,024.0      4,096     13,312         713.3  cudaLaunchKernel  bias_activation(float *, float *, const float *, int, int, bool)                                    
+ 62,661  62,661      0   3,693   3,693  12,913,639.5  13,051,296.0     62,752  25,009,888   3,200,290.3   10,500.7    7,264.0      6,016    890,624      21,929.9  12,894,496.1  13,027,456.0     40,608  24,985,952   3,198,390.3    8,642.6    8,416.0      8,160     20,864       1,255.4  cudaLaunchKernel  loss_gradient(const float *, const unsigned char *, float *, float *, int *, int, int)              
+ 62,661  62,661      0   3,693   3,693  12,905,818.1  13,029,344.0     20,928  25,298,016   3,220,182.5   33,015.1   10,464.0      5,920  1,241,472      43,812.5  12,859,775.6  13,002,944.0        960  25,267,232   3,216,715.2   13,027.3   12,768.0      7,136     28,800       1,825.5  cudaLaunchKernel  gather_batch(const float *, const unsigned char *, const int *, int, int, int, float *, unsigned ch…
+

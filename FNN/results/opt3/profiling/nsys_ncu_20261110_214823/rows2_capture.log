@@ -1,0 +1,22 @@
+GPU: Orin | CC 8.7 | SMs 8
+Training 48000, validation 12000, test 10000 | 28x28 | architecture 784-128-64-10
+FP32; SGD lr=0.01; batch=32; seed=39; 1-D threads/block=128
+Unfused GEMM policy=targeted; forward fusion=on
+Kernels/training batch=22; kernels/evaluation batch=6
+Tiled kernel configuration: tile=16; block=(16,16), 256 threads; static shared/block=2176 bytes
+Targeted rule: transpose_B && M>=tile && N>=128 && K>=tile.
+For this network, only dA1 uses tiling when the shape meets the rule.
+Forward: scalar GEMM+bias+activation in one kernel/layer, shared/block=0 bytes.
+dW1: dw1_register2; outputs/thread=2; threads/block=128; grid blocks=392; explicit shared/block=0 bytes.
+Epoch 1/1 online_train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% train_GPU 476.94ms eval_wall 0.24s epoch_wall 0.72s
+Test loss 0.3474 | test accuracy 90.32%
+Train + epoch evaluations wall: 0.72s
+Final test wall: 0.04s
+Total wall before cleanup (includes loading/setup/warm-up/export): 1.07s
+Saved results under /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/opt3_profile_20261110_214823/rows2_nsys_run
+This version does not yet save model weights or resume training.
+Collecting data...
+Generating '/tmp/nsys-report-36b2.qdstrm'
+[1/1] [0%                          ] rows2.nsys-rep[1/1] [0%                          ] rows2.nsys-rep[1/1] [0%                          ] rows2.nsys-rep[1/1] [12%                         ] rows2.nsys-rep[1/1] [===23%                      ] rows2.nsys-rep[1/1] [======34%                   ] rows2.nsys-rep[1/1] [=========45%                ] rows2.nsys-rep[1/1] [============56%             ] rows2.nsys-rep[1/1] [===============67%          ] rows2.nsys-rep[1/1] [================70%         ] rows2.nsys-rep[1/1] [========================100%] rows2.nsys-rep[1/1] [========================100%] rows2.nsys-rep
+Generated:
+    /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/opt3_profile_20261110_214823/rows2.nsys-rep

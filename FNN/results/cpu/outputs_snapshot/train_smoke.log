@@ -1,0 +1,4 @@
+Training 48000, validation 12000, test 10000 | 28x28
+Epoch 1/1 train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% CPU 28.32s
+Test loss 0.3474 | test accuracy 90.32%
+Saved outputs/metrics.csv, outputs/predictions.csv, outputs/test_digits.pgm

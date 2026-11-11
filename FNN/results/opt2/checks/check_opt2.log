@@ -1,0 +1,744 @@
+GPU: Orin | CC 8.7 | SMs 8
+  Fused forward M/N/K=1/3/5 relu=0 preactivation: PASS max_abs=7.45058e-09 max_error/tolerance=0.000108556 mismatches=0/3
+  Fused forward M/N/K=1/3/5 relu=0 output: PASS max_abs=7.45058e-09 max_error/tolerance=0.000108556 mismatches=0/3
+  Fused forward M/N/K=1/3/5 relu=1 preactivation: PASS max_abs=7.45058e-09 max_error/tolerance=0.000108556 mismatches=0/3
+  Fused forward M/N/K=1/3/5 relu=1 output: PASS max_abs=7.45058e-09 max_error/tolerance=0.000108556 mismatches=0/3
+  Fused forward M/N/K=17/19/23 relu=0 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.00145881 mismatches=0/323
+  Fused forward M/N/K=17/19/23 relu=0 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.00145881 mismatches=0/323
+  Fused forward M/N/K=17/19/23 relu=1 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.00145881 mismatches=0/323
+  Fused forward M/N/K=17/19/23 relu=1 output: PASS max_abs=8.9407e-08 max_error/tolerance=0.00103411 mismatches=0/323
+  Fused forward M/N/K=32/128/784 relu=0 preactivation: PASS max_abs=1.90735e-06 max_error/tolerance=0.0291268 mismatches=0/4096
+  Fused forward M/N/K=32/128/784 relu=0 output: PASS max_abs=1.90735e-06 max_error/tolerance=0.0291268 mismatches=0/4096
+  Fused forward M/N/K=32/128/784 relu=1 preactivation: PASS max_abs=1.90735e-06 max_error/tolerance=0.0291268 mismatches=0/4096
+  Fused forward M/N/K=32/128/784 relu=1 output: PASS max_abs=1.54972e-06 max_error/tolerance=0.0269784 mismatches=0/4096
+Dispatch tile=8: PASS
+  GEMM tile=8 M/N/K=1/3/5 TA/TB=0/0: PASS max_abs=1.49012e-08 max_error/tolerance=0.000291641 mismatches=0/3
+  GEMM tile=8 M/N/K=1/3/5 TA/TB=1/0: PASS max_abs=1.49012e-08 max_error/tolerance=0.000291641 mismatches=0/3
+  GEMM tile=8 M/N/K=1/3/5 TA/TB=0/1: PASS max_abs=1.49012e-08 max_error/tolerance=0.000204552 mismatches=0/3
+  GEMM tile=8 M/N/K=1/3/5 TA/TB=1/1: PASS max_abs=1.49012e-08 max_error/tolerance=0.000204552 mismatches=0/3
+  GEMM tile=8 M/N/K=17/19/23 TA/TB=0/0: PASS max_abs=1.19209e-07 max_error/tolerance=0.00130175 mismatches=0/323
+  GEMM tile=8 M/N/K=17/19/23 TA/TB=1/0: PASS max_abs=2.38419e-07 max_error/tolerance=0.00185267 mismatches=0/323
+  GEMM tile=8 M/N/K=17/19/23 TA/TB=0/1: PASS max_abs=1.19209e-07 max_error/tolerance=0.00238676 mismatches=0/323
+  GEMM tile=8 M/N/K=17/19/23 TA/TB=1/1: PASS max_abs=2.38419e-07 max_error/tolerance=0.000984253 mismatches=0/323
+  GEMM tile=8 M/N/K=32/128/64 TA/TB=0/0: PASS max_abs=3.57628e-07 max_error/tolerance=0.00352369 mismatches=0/4096
+  GEMM tile=8 M/N/K=32/128/64 TA/TB=1/0: PASS max_abs=3.57628e-07 max_error/tolerance=0.00486241 mismatches=0/4096
+  GEMM tile=8 M/N/K=32/128/64 TA/TB=0/1: PASS max_abs=3.57628e-07 max_error/tolerance=0.00517961 mismatches=0/4096
+  GEMM tile=8 M/N/K=32/128/64 TA/TB=1/1: PASS max_abs=2.83122e-07 max_error/tolerance=0.0034702 mismatches=0/4096
+Check widths=7 5 4 3 capacity=8 actual_batch=7 tile=8 policy=all forward_fusion=off
+  sample losses: PASS max_abs=2.38419e-07 max_error/tolerance=0.000250638 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=5.96046e-08 max_error/tolerance=0.000236988 mismatches=0/21
+  layer 0 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000707915 mismatches=0/35
+  layer 0 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000202548 mismatches=0/35
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.000716846 mismatches=0/35
+  layer 0 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00039626 mismatches=0/5
+  layer 1 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.000306737 mismatches=0/20
+  layer 1 db: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 dW: PASS max_abs=1.78814e-07 max_error/tolerance=0.00144921 mismatches=0/12
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000185736 mismatches=0/3
+  layer 0 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/35
+  layer 0 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74665e-06 mismatches=0/5
+  layer 1 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/20
+  layer 1 updated b: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/12
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.77066e-06 mismatches=0/3
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.000286394 mismatches=0/21
+Check widths=17 19 13 10 capacity=32 actual_batch=17 tile=8 policy=all forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.000357473 mismatches=0/17
+  dLoss/dLogits: PASS max_abs=1.19209e-07 max_error/tolerance=0.000503546 mismatches=0/170
+  layer 0 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00107261 mismatches=0/323
+  layer 0 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000821241 mismatches=0/323
+  layer 0 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00397395 mismatches=0/323
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00176677 mismatches=0/19
+  layer 1 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00299574 mismatches=0/221
+  layer 1 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.00230155 mismatches=0/221
+  layer 1 dW: PASS max_abs=4.76837e-07 max_error/tolerance=0.0027998 mismatches=0/247
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00315266 mismatches=0/13
+  layer 2 preactivation: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 output: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.0036738 mismatches=0/130
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000664202 mismatches=0/10
+  layer 0 updated W: PASS max_abs=2.32831e-10 max_error/tolerance=7.4927e-06 mismatches=0/323
+  layer 0 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.59903e-06 mismatches=0/19
+  layer 1 updated W: PASS max_abs=3.72529e-09 max_error/tolerance=7.46326e-05 mismatches=0/247
+  layer 1 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.82849e-06 mismatches=0/13
+  layer 2 updated W: PASS max_abs=4.65661e-10 max_error/tolerance=1.39155e-05 mismatches=0/130
+  layer 2 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.88724e-06 mismatches=0/10
+  post-update logits: PASS max_abs=5.96046e-07 max_error/tolerance=0.00302486 mismatches=0/170
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=8 policy=all forward_fusion=off
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=8 policy=targeted forward_fusion=off
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=8 policy=all forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=8 policy=targeted forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=8 policy=all forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=8 policy=targeted forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Check widths=7 5 4 3 capacity=8 actual_batch=7 tile=8 policy=all forward_fusion=on
+  sample losses: PASS max_abs=2.38419e-07 max_error/tolerance=0.000250638 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=5.96046e-08 max_error/tolerance=0.000236988 mismatches=0/21
+  layer 0 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000707915 mismatches=0/35
+  layer 0 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000202548 mismatches=0/35
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.000716846 mismatches=0/35
+  layer 0 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00039626 mismatches=0/5
+  layer 1 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.000306737 mismatches=0/20
+  layer 1 db: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 dW: PASS max_abs=1.78814e-07 max_error/tolerance=0.00144921 mismatches=0/12
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000185736 mismatches=0/3
+  layer 0 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/35
+  layer 0 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74665e-06 mismatches=0/5
+  layer 1 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/20
+  layer 1 updated b: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/12
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.77066e-06 mismatches=0/3
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.000286394 mismatches=0/21
+Check widths=17 19 13 10 capacity=32 actual_batch=17 tile=8 policy=all forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.000357473 mismatches=0/17
+  dLoss/dLogits: PASS max_abs=1.19209e-07 max_error/tolerance=0.000503546 mismatches=0/170
+  layer 0 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00107261 mismatches=0/323
+  layer 0 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000821241 mismatches=0/323
+  layer 0 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00397395 mismatches=0/323
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00176677 mismatches=0/19
+  layer 1 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00299574 mismatches=0/221
+  layer 1 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.00230155 mismatches=0/221
+  layer 1 dW: PASS max_abs=4.76837e-07 max_error/tolerance=0.0027998 mismatches=0/247
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00315266 mismatches=0/13
+  layer 2 preactivation: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 output: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.0036738 mismatches=0/130
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000664202 mismatches=0/10
+  layer 0 updated W: PASS max_abs=2.32831e-10 max_error/tolerance=7.4927e-06 mismatches=0/323
+  layer 0 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.59903e-06 mismatches=0/19
+  layer 1 updated W: PASS max_abs=3.72529e-09 max_error/tolerance=7.46326e-05 mismatches=0/247
+  layer 1 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.82849e-06 mismatches=0/13
+  layer 2 updated W: PASS max_abs=4.65661e-10 max_error/tolerance=1.39155e-05 mismatches=0/130
+  layer 2 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.88724e-06 mismatches=0/10
+  post-update logits: PASS max_abs=5.96046e-07 max_error/tolerance=0.00302486 mismatches=0/170
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=8 policy=all forward_fusion=on
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=8 policy=targeted forward_fusion=on
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=8 policy=all forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=8 policy=targeted forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=8 policy=all forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=8 policy=targeted forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Dispatch tile=16: PASS
+  GEMM tile=16 M/N/K=1/3/5 TA/TB=0/0: PASS max_abs=1.49012e-08 max_error/tolerance=0.000291641 mismatches=0/3
+  GEMM tile=16 M/N/K=1/3/5 TA/TB=1/0: PASS max_abs=1.49012e-08 max_error/tolerance=0.000291641 mismatches=0/3
+  GEMM tile=16 M/N/K=1/3/5 TA/TB=0/1: PASS max_abs=1.49012e-08 max_error/tolerance=0.000204552 mismatches=0/3
+  GEMM tile=16 M/N/K=1/3/5 TA/TB=1/1: PASS max_abs=1.49012e-08 max_error/tolerance=0.000204552 mismatches=0/3
+  GEMM tile=16 M/N/K=17/19/23 TA/TB=0/0: PASS max_abs=1.19209e-07 max_error/tolerance=0.00130175 mismatches=0/323
+  GEMM tile=16 M/N/K=17/19/23 TA/TB=1/0: PASS max_abs=2.38419e-07 max_error/tolerance=0.00185267 mismatches=0/323
+  GEMM tile=16 M/N/K=17/19/23 TA/TB=0/1: PASS max_abs=1.19209e-07 max_error/tolerance=0.00238676 mismatches=0/323
+  GEMM tile=16 M/N/K=17/19/23 TA/TB=1/1: PASS max_abs=2.38419e-07 max_error/tolerance=0.000984253 mismatches=0/323
+  GEMM tile=16 M/N/K=32/128/64 TA/TB=0/0: PASS max_abs=3.57628e-07 max_error/tolerance=0.00352369 mismatches=0/4096
+  GEMM tile=16 M/N/K=32/128/64 TA/TB=1/0: PASS max_abs=3.57628e-07 max_error/tolerance=0.00486241 mismatches=0/4096
+  GEMM tile=16 M/N/K=32/128/64 TA/TB=0/1: PASS max_abs=3.57628e-07 max_error/tolerance=0.00517961 mismatches=0/4096
+  GEMM tile=16 M/N/K=32/128/64 TA/TB=1/1: PASS max_abs=2.83122e-07 max_error/tolerance=0.0034702 mismatches=0/4096
+Check widths=7 5 4 3 capacity=8 actual_batch=7 tile=16 policy=all forward_fusion=off
+  sample losses: PASS max_abs=2.38419e-07 max_error/tolerance=0.000250638 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=5.96046e-08 max_error/tolerance=0.000236988 mismatches=0/21
+  layer 0 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000707915 mismatches=0/35
+  layer 0 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000202548 mismatches=0/35
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.000716846 mismatches=0/35
+  layer 0 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00039626 mismatches=0/5
+  layer 1 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.000306737 mismatches=0/20
+  layer 1 db: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 dW: PASS max_abs=1.78814e-07 max_error/tolerance=0.00144921 mismatches=0/12
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000185736 mismatches=0/3
+  layer 0 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/35
+  layer 0 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74665e-06 mismatches=0/5
+  layer 1 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/20
+  layer 1 updated b: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/12
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.77066e-06 mismatches=0/3
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.000286394 mismatches=0/21
+Check widths=17 19 13 10 capacity=32 actual_batch=17 tile=16 policy=all forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.000357473 mismatches=0/17
+  dLoss/dLogits: PASS max_abs=1.19209e-07 max_error/tolerance=0.000503546 mismatches=0/170
+  layer 0 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00107261 mismatches=0/323
+  layer 0 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000821241 mismatches=0/323
+  layer 0 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00397395 mismatches=0/323
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00176677 mismatches=0/19
+  layer 1 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00299574 mismatches=0/221
+  layer 1 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.00230155 mismatches=0/221
+  layer 1 dW: PASS max_abs=4.76837e-07 max_error/tolerance=0.0027998 mismatches=0/247
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00315266 mismatches=0/13
+  layer 2 preactivation: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 output: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.0036738 mismatches=0/130
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000664202 mismatches=0/10
+  layer 0 updated W: PASS max_abs=2.32831e-10 max_error/tolerance=7.4927e-06 mismatches=0/323
+  layer 0 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.59903e-06 mismatches=0/19
+  layer 1 updated W: PASS max_abs=3.72529e-09 max_error/tolerance=7.46326e-05 mismatches=0/247
+  layer 1 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.82849e-06 mismatches=0/13
+  layer 2 updated W: PASS max_abs=4.65661e-10 max_error/tolerance=1.39155e-05 mismatches=0/130
+  layer 2 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.88724e-06 mismatches=0/10
+  post-update logits: PASS max_abs=5.96046e-07 max_error/tolerance=0.00302486 mismatches=0/170
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=16 policy=all forward_fusion=off
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=16 policy=targeted forward_fusion=off
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=16 policy=all forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=16 policy=targeted forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=16 policy=all forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=16 policy=targeted forward_fusion=off
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Check widths=7 5 4 3 capacity=8 actual_batch=7 tile=16 policy=all forward_fusion=on
+  sample losses: PASS max_abs=2.38419e-07 max_error/tolerance=0.000250638 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=5.96046e-08 max_error/tolerance=0.000236988 mismatches=0/21
+  layer 0 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000707915 mismatches=0/35
+  layer 0 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000202548 mismatches=0/35
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.000716846 mismatches=0/35
+  layer 0 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00039626 mismatches=0/5
+  layer 1 preactivation: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 output: PASS max_abs=1.19209e-07 max_error/tolerance=0.000516604 mismatches=0/28
+  layer 1 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.000306737 mismatches=0/20
+  layer 1 db: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000437287 mismatches=0/21
+  layer 2 dW: PASS max_abs=1.78814e-07 max_error/tolerance=0.00144921 mismatches=0/12
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000185736 mismatches=0/3
+  layer 0 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/35
+  layer 0 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74665e-06 mismatches=0/5
+  layer 1 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/20
+  layer 1 updated b: PASS max_abs=0 max_error/tolerance=0 mismatches=0/4
+  layer 2 updated W: PASS max_abs=0 max_error/tolerance=0 mismatches=0/12
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.77066e-06 mismatches=0/3
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.000286394 mismatches=0/21
+Check widths=17 19 13 10 capacity=32 actual_batch=17 tile=16 policy=all forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.000357473 mismatches=0/17
+  dLoss/dLogits: PASS max_abs=1.19209e-07 max_error/tolerance=0.000503546 mismatches=0/170
+  layer 0 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00107261 mismatches=0/323
+  layer 0 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.000821241 mismatches=0/323
+  layer 0 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00397395 mismatches=0/323
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00176677 mismatches=0/19
+  layer 1 preactivation: PASS max_abs=2.38419e-07 max_error/tolerance=0.00299574 mismatches=0/221
+  layer 1 output: PASS max_abs=2.38419e-07 max_error/tolerance=0.00230155 mismatches=0/221
+  layer 1 dW: PASS max_abs=4.76837e-07 max_error/tolerance=0.0027998 mismatches=0/247
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00315266 mismatches=0/13
+  layer 2 preactivation: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 output: PASS max_abs=2.98023e-07 max_error/tolerance=0.00300203 mismatches=0/170
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.0036738 mismatches=0/130
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000664202 mismatches=0/10
+  layer 0 updated W: PASS max_abs=2.32831e-10 max_error/tolerance=7.4927e-06 mismatches=0/323
+  layer 0 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.59903e-06 mismatches=0/19
+  layer 1 updated W: PASS max_abs=3.72529e-09 max_error/tolerance=7.46326e-05 mismatches=0/247
+  layer 1 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.82849e-06 mismatches=0/13
+  layer 2 updated W: PASS max_abs=4.65661e-10 max_error/tolerance=1.39155e-05 mismatches=0/130
+  layer 2 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.88724e-06 mismatches=0/10
+  post-update logits: PASS max_abs=5.96046e-07 max_error/tolerance=0.00302486 mismatches=0/170
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=16 policy=all forward_fusion=on
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=1 tile=16 policy=targeted forward_fusion=on
+  sample losses: PASS max_abs=0 max_error/tolerance=0 mismatches=0/1
+  dLoss/dLogits: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 preactivation: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00418107 mismatches=0/128
+  layer 0 dW: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/100352
+  layer 0 db: PASS max_abs=3.44589e-08 max_error/tolerance=0.00101682 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 output: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273356 mismatches=0/64
+  layer 1 dW: PASS max_abs=1.63913e-07 max_error/tolerance=0.00170141 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000219331 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00212379 mismatches=0/10
+  layer 2 dW: PASS max_abs=4.17233e-07 max_error/tolerance=0.00273509 mismatches=0/640
+  layer 2 db: PASS max_abs=2.98023e-08 max_error/tolerance=0.000449981 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000157024 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=3.4197e-10 max_error/tolerance=1.13842e-05 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000144294 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.4986e-05 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000149215 mismatches=0/640
+  layer 2 updated b: PASS max_abs=4.65661e-10 max_error/tolerance=1.48627e-05 mismatches=0/10
+  post-update logits: PASS max_abs=2.38419e-07 max_error/tolerance=0.00530765 mismatches=0/10
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=16 policy=all forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=7 tile=16 policy=targeted forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/7
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/70
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.00785068 mismatches=0/896
+  layer 0 output: PASS max_abs=5.96046e-07 max_error/tolerance=0.00767756 mismatches=0/896
+  layer 0 dW: PASS max_abs=8.9407e-08 max_error/tolerance=0.00189452 mismatches=0/100352
+  layer 0 db: PASS max_abs=8.9407e-08 max_error/tolerance=0.00139044 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=5.36442e-07 max_error/tolerance=0.0147357 mismatches=0/448
+  layer 1 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.0104735 mismatches=0/448
+  layer 1 dW: PASS max_abs=3.27826e-07 max_error/tolerance=0.0064812 mismatches=0/8192
+  layer 1 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.00125636 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00284301 mismatches=0/70
+  layer 2 dW: PASS max_abs=5.96046e-07 max_error/tolerance=0.00891438 mismatches=0/640
+  layer 2 db: PASS max_abs=1.19209e-07 max_error/tolerance=0.000442487 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000160806 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=1.45519e-10 max_error/tolerance=4.82222e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154429 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=1.74623e-10 max_error/tolerance=5.74504e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.0001498 mismatches=0/640
+  layer 2 updated b: PASS max_abs=2.32831e-10 max_error/tolerance=7.47599e-06 mismatches=0/10
+  post-update logits: PASS max_abs=4.99189e-07 max_error/tolerance=0.00804023 mismatches=0/70
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=16 policy=all forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Check widths=784 128 64 10 capacity=32 actual_batch=32 tile=16 policy=targeted forward_fusion=on
+  sample losses: PASS max_abs=4.76837e-07 max_error/tolerance=0.00047114 mismatches=0/32
+  dLoss/dLogits: PASS max_abs=7.45058e-08 max_error/tolerance=0.000618135 mismatches=0/320
+  layer 0 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.009967 mismatches=0/4096
+  layer 0 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.00791007 mismatches=0/4096
+  layer 0 dW: PASS max_abs=2.38419e-07 max_error/tolerance=0.00316308 mismatches=0/100352
+  layer 0 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00197637 mismatches=0/128
+  layer 1 preactivation: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 output: PASS max_abs=7.15256e-07 max_error/tolerance=0.0151001 mismatches=0/2048
+  layer 1 dW: PASS max_abs=1.90735e-06 max_error/tolerance=0.0137716 mismatches=0/8192
+  layer 1 db: PASS max_abs=2.38419e-07 max_error/tolerance=0.00152364 mismatches=0/64
+  layer 2 preactivation: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 output: PASS max_abs=4.76837e-07 max_error/tolerance=0.00808603 mismatches=0/320
+  layer 2 dW: PASS max_abs=1.43051e-06 max_error/tolerance=0.0179567 mismatches=0/640
+  layer 2 db: PASS max_abs=4.76837e-07 max_error/tolerance=0.000981647 mismatches=0/10
+  layer 0 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000140691 mismatches=0/100352
+  layer 0 updated b: PASS max_abs=7.27596e-11 max_error/tolerance=2.41832e-06 mismatches=0/128
+  layer 1 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000132756 mismatches=0/8192
+  layer 1 updated b: PASS max_abs=8.73115e-11 max_error/tolerance=2.89466e-06 mismatches=0/64
+  layer 2 updated W: PASS max_abs=1.49012e-08 max_error/tolerance=0.000154347 mismatches=0/640
+  layer 2 updated b: PASS max_abs=1.16415e-10 max_error/tolerance=3.81856e-06 mismatches=0/10
+  post-update logits: PASS max_abs=7.15256e-07 max_error/tolerance=0.0133251 mismatches=0/320
+Overall CPU/GPU check: PASS

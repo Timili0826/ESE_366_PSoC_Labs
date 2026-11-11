@@ -1,0 +1,39 @@
+GPU: Orin | CC 8.7 | SMs 8
+Training 48000, validation 12000, test 10000 | 28x28 | architecture 784-128-64-10
+FP32; SGD lr=0.01; batch=32; seed=39; 1-D threads/block=128
+Unfused GEMM policy=targeted; forward fusion=on
+Kernels/training batch=22; kernels/evaluation batch=6
+Tiled kernel configuration: tile=16; block=(16,16), 256 threads; static shared/block=2176 bytes
+Targeted rule: transpose_B && M>=tile && N>=128 && K>=tile.
+For this network, only dA1 uses tiling when the shape meets the rule.
+Forward: scalar GEMM+bias+activation in one kernel/layer, shared/block=0 bytes.
+dW1: existing opt2 GEMM dispatcher (rows/thread=1 control).
+Epoch 1/20 online_train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% train_GPU 494.33ms eval_wall 0.24s epoch_wall 0.73s
+Epoch 2/20 online_train_loss 0.3024 train_acc 92.45% val_loss 0.3276 val_acc 90.78% train_GPU 480.91ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 3/20 online_train_loss 0.2509 train_acc 93.55% val_loss 0.2871 val_acc 91.81% train_GPU 480.74ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 4/20 online_train_loss 0.2188 train_acc 94.29% val_loss 0.2619 val_acc 92.66% train_GPU 480.90ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 5/20 online_train_loss 0.1946 train_acc 94.98% val_loss 0.2377 val_acc 93.41% train_GPU 480.84ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 6/20 online_train_loss 0.1742 train_acc 95.35% val_loss 0.2259 val_acc 93.67% train_GPU 480.87ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 7/20 online_train_loss 0.1587 train_acc 95.87% val_loss 0.2057 val_acc 94.23% train_GPU 480.85ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 8/20 online_train_loss 0.1451 train_acc 96.13% val_loss 0.1969 val_acc 94.36% train_GPU 480.81ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 9/20 online_train_loss 0.1335 train_acc 96.50% val_loss 0.1818 val_acc 94.81% train_GPU 480.88ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 10/20 online_train_loss 0.1241 train_acc 96.72% val_loss 0.1771 val_acc 94.92% train_GPU 480.85ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 11/20 online_train_loss 0.1151 train_acc 97.00% val_loss 0.1702 val_acc 95.15% train_GPU 480.88ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 12/20 online_train_loss 0.1076 train_acc 97.20% val_loss 0.1603 val_acc 95.42% train_GPU 480.79ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 13/20 online_train_loss 0.1012 train_acc 97.43% val_loss 0.1535 val_acc 95.50% train_GPU 480.79ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 14/20 online_train_loss 0.0951 train_acc 97.60% val_loss 0.1474 val_acc 95.78% train_GPU 480.85ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 15/20 online_train_loss 0.0894 train_acc 97.62% val_loss 0.1487 val_acc 95.61% train_GPU 480.91ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 16/20 online_train_loss 0.0844 train_acc 97.85% val_loss 0.1405 val_acc 95.98% train_GPU 480.69ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 17/20 online_train_loss 0.0799 train_acc 97.94% val_loss 0.1387 val_acc 95.97% train_GPU 480.73ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 18/20 online_train_loss 0.0758 train_acc 98.13% val_loss 0.1326 val_acc 96.27% train_GPU 480.84ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 19/20 online_train_loss 0.0715 train_acc 98.12% val_loss 0.1318 val_acc 96.26% train_GPU 480.93ms eval_wall 0.24s epoch_wall 0.72s
+Epoch 20/20 online_train_loss 0.0679 train_acc 98.28% val_loss 0.1292 val_acc 96.17% train_GPU 480.98ms eval_wall 0.24s epoch_wall 0.72s
+Test loss 0.0991 | test accuracy 96.97%
+Train + epoch evaluations wall: 14.37s
+Final test wall: 0.04s
+Total wall before cleanup (includes loading/setup/warm-up/export): 14.68s
+Saved results under /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/outputs/opt3_formal_20261110_212458/rows1_trial1
+This version does not yet save model weights or resume training.
+real 14.75
+user 6.81
+sys 7.08

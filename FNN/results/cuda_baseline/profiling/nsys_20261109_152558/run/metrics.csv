@@ -1,0 +1,2 @@
+epoch,train_loss,train_accuracy,val_loss,val_accuracy,online_train_loss,train_gpu_ms,eval_wall_s,epoch_wall_s
+1,0.3468431397,0.9014583333,0.4115662286,0.8809166667,0.7177152628,626.4979858,0.281983284,0.909794139

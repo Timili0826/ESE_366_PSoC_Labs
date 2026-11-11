@@ -1,0 +1,26 @@
+Training 48000, validation 12000, test 10000 | 28x28
+Epoch 1/20 train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% CPU 28.31s
+Epoch 2/20 train_loss 0.3024 train_acc 92.45% val_loss 0.3276 val_acc 90.78% CPU 28.30s
+Epoch 3/20 train_loss 0.2509 train_acc 93.56% val_loss 0.2872 val_acc 91.80% CPU 28.30s
+Epoch 4/20 train_loss 0.2188 train_acc 94.30% val_loss 0.2619 val_acc 92.66% CPU 28.30s
+Epoch 5/20 train_loss 0.1946 train_acc 94.97% val_loss 0.2377 val_acc 93.40% CPU 28.30s
+Epoch 6/20 train_loss 0.1743 train_acc 95.36% val_loss 0.2259 val_acc 93.67% CPU 28.30s
+Epoch 7/20 train_loss 0.1587 train_acc 95.87% val_loss 0.2057 val_acc 94.24% CPU 28.30s
+Epoch 8/20 train_loss 0.1451 train_acc 96.11% val_loss 0.1970 val_acc 94.29% CPU 28.30s
+Epoch 9/20 train_loss 0.1335 train_acc 96.50% val_loss 0.1820 val_acc 94.79% CPU 28.30s
+Epoch 10/20 train_loss 0.1240 train_acc 96.72% val_loss 0.1772 val_acc 94.92% CPU 28.30s
+Epoch 11/20 train_loss 0.1151 train_acc 97.01% val_loss 0.1703 val_acc 95.16% CPU 28.30s
+Epoch 12/20 train_loss 0.1076 train_acc 97.20% val_loss 0.1603 val_acc 95.43% CPU 28.30s
+Epoch 13/20 train_loss 0.1012 train_acc 97.44% val_loss 0.1535 val_acc 95.51% CPU 28.30s
+Epoch 14/20 train_loss 0.0950 train_acc 97.61% val_loss 0.1474 val_acc 95.82% CPU 28.30s
+Epoch 15/20 train_loss 0.0894 train_acc 97.64% val_loss 0.1486 val_acc 95.63% CPU 28.30s
+Epoch 16/20 train_loss 0.0844 train_acc 97.87% val_loss 0.1406 val_acc 95.97% CPU 28.30s
+Epoch 17/20 train_loss 0.0799 train_acc 97.94% val_loss 0.1387 val_acc 96.01% CPU 28.30s
+Epoch 18/20 train_loss 0.0757 train_acc 98.14% val_loss 0.1327 val_acc 96.27% CPU 28.30s
+Epoch 19/20 train_loss 0.0715 train_acc 98.13% val_loss 0.1320 val_acc 96.30% CPU 28.30s
+Epoch 20/20 train_loss 0.0679 train_acc 98.28% val_loss 0.1294 val_acc 96.17% CPU 28.30s
+Test loss 0.0990 | test accuracy 97.00%
+Saved outputs/metrics.csv, outputs/predictions.csv, outputs/test_digits.pgm
+real 568.43
+user 567.68
+sys 0.08

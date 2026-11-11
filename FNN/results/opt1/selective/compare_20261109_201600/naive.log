@@ -1,0 +1,17 @@
+GPU: Orin | CC 8.7 | SMs 8
+Training 48000, validation 12000, test 10000 | 28x28 | architecture 784-128-64-10
+FP32; SGD lr=0.01; batch=32; seed=39; 1-D threads/block=128
+GEMM policy=naive
+All GEMMs use naive: explicit shared/block=0 bytes.
+Epoch 1/3 online_train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% train_GPU 594.85ms eval_wall 0.27s epoch_wall 0.87s
+Epoch 2/3 online_train_loss 0.3024 train_acc 92.45% val_loss 0.3276 val_acc 90.78% train_GPU 582.05ms eval_wall 0.27s epoch_wall 0.85s
+Epoch 3/3 online_train_loss 0.2509 train_acc 93.55% val_loss 0.2871 val_acc 91.81% train_GPU 582.48ms eval_wall 0.27s epoch_wall 0.85s
+Test loss 0.2335 | test accuracy 93.39%
+Train + epoch evaluations wall: 2.57s
+Final test wall: 0.04s
+Total wall before cleanup (includes loading/setup/warm-up/export): 2.89s
+Saved results under /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/outputs/opt1_selective_20261109_201600/naive
+This version does not yet save model weights or resume training.
+real 2.96
+user 1.33
+sys 1.49

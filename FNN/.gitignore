@@ -1,0 +1,30 @@
+# Local metadata and Python caches
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# C/CUDA build products
+/build/
+**/build/
+*.o
+*.a
+*.so
+*.dylib
+/fnn
+/cuda_*/fnn_cuda
+/cuda_*/fnn_cuda_opt[123]
+
+# Downloaded MNIST data (compressed and extracted)
+/data/mnist/
+
+# Profiler binary reports and exported databases; retain text/log/CSV files
+*.ncu-rep
+*.nsys-rep
+*.qdrep
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Local-only preserved artifacts and packages
+/local_archive/
+*.sqlite-journal

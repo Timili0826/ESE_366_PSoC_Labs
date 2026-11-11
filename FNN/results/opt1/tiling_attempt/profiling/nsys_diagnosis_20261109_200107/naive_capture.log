@@ -1,0 +1,17 @@
+GPU: Orin | CC 8.7 | SMs 8
+Training 48000, validation 12000, test 10000 | 28x28 | architecture 784-128-64-10
+FP32; SGD lr=0.01; batch=32; seed=39; 1-D threads/block=128
+GEMM policy=naive; tile=16; tiled block=(16,16), 256 threads; static shared/block=2176 bytes
+Targeted rule: M>=tile, N>=128, K>=tile; other GEMMs use naive.
+Epoch 1/1 online_train_loss 0.7177 train_acc 90.15% val_loss 0.4116 val_acc 88.09% train_GPU 623.05ms eval_wall 0.28s epoch_wall 0.91s
+Test loss 0.3474 | test accuracy 90.32%
+Train + epoch evaluations wall: 0.91s
+Final test wall: 0.05s
+Total wall before cleanup (includes loading/setup/warm-up/export): 1.25s
+Saved results under /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/opt1_diagnosis_20261109_200107/naive_run
+This version does not yet save model weights or resume training.
+Collecting data...
+Generating '/tmp/nsys-report-6352.qdstrm'
+[1/1] [0%                          ] naive.nsys-rep[1/1] [0%                          ] naive.nsys-rep[1/1] [0%                          ] naive.nsys-rep[1/1] [10%                         ] naive.nsys-rep[1/1] [==19%                       ] naive.nsys-rep[1/1] [=====29%                    ] naive.nsys-rep[1/1] [=======38%                  ] naive.nsys-rep[1/1] [==========48%               ] naive.nsys-rep[1/1] [============57%             ] naive.nsys-rep[1/1] [===============66%          ] naive.nsys-rep[1/1] [================71%         ] naive.nsys-rep[1/1] [========================100%] naive.nsys-rep[1/1] [========================100%] naive.nsys-rep
+Generated:
+    /home/cad28107/ESE366/project2/ESE_366_PSoC_Labs/FNN/results/opt1_diagnosis_20261109_200107/naive.nsys-rep

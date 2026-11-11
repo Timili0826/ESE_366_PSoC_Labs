@@ -1,0 +1,14 @@
+implementation=plain CUDA FP32
+architecture=784,128,64,10
+seed=39
+epochs=20
+lr=0.01
+batch=32
+threads=128
+gpu=Orin
+source_cpu_commit=62e4aee6af94989494c78b25bf62a49c138df2fc
+test_loss=0.0990530657411
+test_accuracy=0.9697
+train_and_epoch_evaluation_wall_s=17.043164098
+final_test_wall_s=0.044515823
+total_wall_s_before_cleanup=17.360371128
