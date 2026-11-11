@@ -1,1 +1,0 @@
-Board in PSoC Designer: CY8C28645-24LTXI

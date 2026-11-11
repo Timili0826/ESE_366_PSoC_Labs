@@ -1,5 +1,0 @@
-flash  A18 SRAM    0:
- 00 32 bytes
-flash  A1C SRAM   2F:
- <size at next line>   3 E8  0  0  0 FF
-  [size:] 6 bytes
