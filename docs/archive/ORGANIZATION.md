@@ -16,12 +16,12 @@ The active selective source is fnn_cuda_opt1.cu; the redundant unusual-filename
 copy was removed. Source, experiment logs, CSV, text summaries and figures in the
 upload tree were retained unchanged.
 
-[Original inventory](docs/inventory_before.csv) is a historical record.
-[Move manifest](docs/file_moves.csv) maps retained original files; removed entries
+[Original inventory](../inventory_before.csv) is a historical record.
+[Move manifest](../file_moves.csv) maps retained original files; removed entries
 have an empty new_path and category removed_local_only.
-[Removal manifest](docs/removed_files.csv) records deleted paths, hashes, sizes,
+[Removal manifest](../removed_files.csv) records deleted paths, hashes, sizes,
 reasons and identical retained files where available.
-[Collision comparisons](docs/collision_comparisons.csv) records prior comparisons;
+[Collision comparisons](../collision_comparisons.csv) records prior comparisons;
 its target paths refer to that earlier step, not necessarily current files.
 
 CPU snapshots remain separate and are not assumed to represent a single run.
@@ -31,4 +31,4 @@ including paths inside logs, were not rewritten.
 
 No Ubuntu/Jetson connection, Git initialization, commit, push, remote change,
 git rm or history rewrite was performed. .gitignore remains to exclude future
-build products, downloaded data and caches. See [validation](docs/validation.md).
+build products, downloaded data and caches. See [validation](validation.md).

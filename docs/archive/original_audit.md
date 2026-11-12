@@ -16,7 +16,7 @@ these counts describe different starting snapshots.
 - No required source or experimental evidence is missing or unexpectedly changed. No result evidence in the organized tree lacks a matching original file.
 - The original directory was not modified; its full file inventory and SHA-256 hashes were rechecked after validation.
 
-[original_comparison.csv](original_comparison.csv) provides one row for every
+[original_comparison.csv](../original_comparison.csv) provides one row for every
 original file, its expected upload path, original SHA-256 and comparison status.
 `excluded_from_upload` entries have an empty destination. Earlier move/removal
 manifests remain historical records of the previous cleanup steps.

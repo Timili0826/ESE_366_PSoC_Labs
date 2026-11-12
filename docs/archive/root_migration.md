@@ -19,7 +19,7 @@ removing the leading FNN/ path component. 266 files match byte-for-byte;
 only seven active README files changed. All C/CUDA source, headers, Makefiles,
 scripts, historical results and original audit records retain their SHA-256.
 The original `.gitignore` was moved unchanged; there was no root ignore conflict.
-[Per-file before/after hashes](root_migration_hashes.csv) record each former
+[Per-file before/after hashes](../root_migration_hashes.csv) record each former
 FNN file. Old inventory, comparison, removal and validation records are retained
 as historical documents without rewriting their hashes or paths.
 

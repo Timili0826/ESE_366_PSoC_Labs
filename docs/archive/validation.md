@@ -30,7 +30,7 @@ The subsequent read-only comparison against the user-designated original backup
 passes: 255 byte-identical retained files, six updated READMEs, 68 intentional
 upload exclusions; no missing source/evidence or unexpected content changes.
 CPU compilation was verified again. See [original audit](original_audit.md) and
-[per-file comparison](original_comparison.csv) for details.
+[per-file comparison](../original_comparison.csv) for details.
 
 ## README command correction: static validation
 
