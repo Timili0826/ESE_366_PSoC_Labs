@@ -1,0 +1,11 @@
+GPU Orin CC 8.7
+phase 1 epoch 1 val_acc 87.9667 epoch_wall_s 0.557705
+phase 1 epoch 2 val_acc 90.0417 epoch_wall_s 0.558219
+phase 1 epoch 3 val_acc 91.0333 epoch_wall_s 0.558598
+phase 1 epoch 4 val_acc 91.9083 epoch_wall_s 0.558449
+phase 1 epoch 5 val_acc 92.5667 epoch_wall_s 0.558335
+phase 1 epoch 6 val_acc 93.1333 epoch_wall_s 0.558202
+phase 1 epoch 7 val_acc 93.425 epoch_wall_s 0.55902
+phase 1 epoch 8 val_acc 93.85 epoch_wall_s 0.558307
+phase 1 epoch 9 val_acc 94.2333 epoch_wall_s 0.558506
+phase 1 epoch 10 val_acc 94.4917 epoch_wall_s 0.558131

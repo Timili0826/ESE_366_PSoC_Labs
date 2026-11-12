@@ -1,0 +1,28 @@
+{
+  "archives": [
+    {
+      "filename": "timeinc_results.tar.gz",
+      "sha256": "c6a3435934992fa0dc9c7705c24f37c2279916ffc159238766188451a27a6a50",
+      "bytes": 11025524,
+      "retained_outside_git": true
+    },
+    {
+      "filename": "FNN_time_accuracy_incremental_analysis.zip",
+      "sha256": "73a6ddba4b78afdbd9e3e81078637d1ec7130cfc97fb5c64b3842da8069b70be",
+      "bytes": 1449846,
+      "retained_outside_git": true
+    }
+  ],
+  "imported_tar_files": 25,
+  "excluded_checkpoint_files": 17,
+  "selected_timing_runs": {
+    "cpu": 1,
+    "baseline": 1,
+    "opt1": 3,
+    "opt2": 3,
+    "opt3": 3
+  },
+  "protected_original_files_verified": 246,
+  "new_training_or_gpu_execution": false,
+  "remote_operations": false
+}

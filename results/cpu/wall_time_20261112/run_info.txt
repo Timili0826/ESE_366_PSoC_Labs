@@ -1,0 +1,16 @@
+implementation=CPU FP32
+architecture=784,128,64,10
+seed=39
+epochs=20
+lr=0.00999999978
+batch=32
+train_count=48000
+val_count=12000
+test_count=10000
+timing=monotonic_shuffle_train_trainval_evaluation
+profiler=none
+
+source_commit=e078d62eb62df27d0efdafc762c5d4ebb92e7358
+source_manifest=/home/cad28107/ESE366/project2/fnn_timeinc_ITWwfqEv/outputs/experiments/cpu-only_20261112_134516_fL8hcd/source_sha256.txt
+dataset_manifest=/home/cad28107/ESE366/project2/fnn_timeinc_ITWwfqEv/outputs/experiments/cpu-only_20261112_134516_fL8hcd/environment.txt
+profiler=none

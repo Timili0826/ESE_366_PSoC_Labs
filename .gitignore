@@ -29,3 +29,33 @@ __pycache__/
 # Local-only preserved artifacts and packages
 /local_archive/
 *.sqlite-journal
+
+# Incremental executable and local experiment outputs
+/incremental/fnn_incremental
+/incremental/fnn_incremental.exe
+/outputs/experiments/
+
+# Local downloaded input packages and all model checkpoint payloads
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.ckpt
+# Windows CUDA executables (Linux names are excluded above)
+/cuda_*/fnn_cuda.exe
+/cuda_*/fnn_cuda_opt[123].exe
+# Superseded local preliminary figures, not the curated results/
+/outputs/time_accuracy_*/
+
+# MNIST directory or symlink, and exact raw IDX payload names anywhere
+/data/mnist
+train-images-idx3-ubyte
+train-labels-idx1-ubyte
+t10k-images-idx3-ubyte
+t10k-labels-idx1-ubyte
+train-images-idx3-ubyte.gz
+train-labels-idx1-ubyte.gz
+t10k-images-idx3-ubyte.gz
+t10k-labels-idx1-ubyte.gz
+.pytest_cache/
+.mypy_cache/

@@ -1,0 +1,1 @@
+PASS: CPU/GPU numerical reference; warm-up no update; exact parameter/logits/loss roundtrip; continuous 3 epochs equals 1 + checkpoint + 2 epochs.

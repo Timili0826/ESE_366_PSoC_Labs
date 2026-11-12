@@ -1,303 +1,168 @@
-# Feedforward Neural Network (FNN) in C
+# ESE366 Project 2: MNIST FNN on CPU and CUDA
 
-A fully connected neural network implemented from scratch in C for MNIST handwritten digit classification. This ESE 366 project includes a CPU baseline and five preserved CUDA implementation stages.
-
-Architecture: **784 → 128 → 64 → 10**  
-Training: ReLU, cross-entropy loss, mini-batch SGD.
+MNIST; **784–128–64–10**, FP32, ReLU/ReLU/linear, cross-entropy, ordinary SGD;
+**lr=0.01, batch=32, seed=39**, 48,000 training / 12,000 validation / 10,000 test.
+CUDA uses 128 one-dimensional threads/block; selective tile16, Opt2 fusion on,
+and Opt3 dW1 rows/thread=2. All commands below start at the **repository root**.
 
 ## Origin and attribution
 
-The CPU baseline was provided by a classmate through
+The CPU foundation was provided by a classmate through
 [marcusvel28/ESE_366_PSoC_Labs](https://github.com/marcusvel28/ESE_366_PSoC_Labs),
-the upstream repository from which this repository is forked. Credit for that
-CPU foundation remains with the original author. The CUDA baseline, subsequent
-CUDA implementations and optimization experiments in this repository were
-developed on top of that CPU baseline.
+the upstream repository from which this repository is forked. Credit remains
+with the original author. The CUDA baseline and optimization experiments were
+developed on top of that CPU implementation. The preserved
+[CPU reference snapshot](https://github.com/Timili0826/ESE_366_PSoC_Labs/tree/62e4aee6af94989494c78b25bf62a49c138df2fc/FNN)
+uses the historical `FNN/` path; current CPU files live in `cpu/`.
+No license is introduced or changed by this organization.
 
-The preserved [CPU reference snapshot](https://github.com/Timili0826/ESE_366_PSoC_Labs/tree/62e4aee6af94989494c78b25bf62a49c138df2fc/FNN)
-uses the historical `FNN/` path at its pinned commit. Current project files live
-under `cpu/` for the CPU implementation, with CUDA stages and shared data at the repository root. The random seed is **39**, as in the existing
-code. No license file or declared license was present in the migrated repository;
-this reorganization does not introduce or change licensing terms.
+## Source and results
 
-## 1. Setup
+| Directory | Purpose |
+|---|---|
+| `cpu/` | CPU reference, monotonic epoch timing, independent output directory |
+| `cuda_00_baseline/` | Plain CUDA baseline |
+| `cuda_01_tiling_attempt/` | Preserved failed broad tiling experiment; excluded from final Opt1 curves |
+| `cuda_01_selective_tiling/` | Final Opt1: selective eligible dA1 tiling |
+| `cuda_02_forward_fusion/` | Opt2: forward fusion |
+| `cuda_03_register_reuse/` | Final Opt3: dW1 register reuse |
+| `incremental/` | Checkpoint/new-data entry directly including final Opt3 computation |
+| `results/cpu/baseline/` | Original CPU experiment, unchanged |
+| `results/cpu/wall_time_20261112/` | One formal 20-epoch CPU wall-time run |
+| `results/incremental/20261112/` | Initial/new metrics, sample IDs, logs, checks and provenance |
+| `results/time_accuracy/20261112/` | Five PNG/vector-PDF pairs, derived CSVs, relative source manifest |
+| Other `results/` folders | Original CUDA experiments, controls and profiler text, unchanged |
+| `scripts/`, `docs/` | Reproduction scripts and methodology/audits |
+| `data/`, `outputs/` | Dataset instructions and fresh-run outputs |
 
-Download the MNIST dataset:
+See [methodology and runbook](docs/time_accuracy_incremental.md),
+[figures and analysis](results/time_accuracy/20261112/README.md),
+[CPU run](results/cpu/wall_time_20261112/README.md),
+[incremental run](results/incremental/20261112/README.md) and the
+[failed broad tiling explanation](cuda_01_tiling_attempt/README.md).
 
-```bash
-bash scripts/download_mnist.sh
-```
+## Build and correctness checks
 
-Install Python dependencies for visualization:
-
-```bash
-python3 -m pip install numpy matplotlib pillow
-```
-
-## 2. Compile and Train
-
-Compile the C implementation:
-
-```bash
-make -C cpu
-```
-
-Train with default parameters:
-
-```bash
-make -C cpu run
-```
-
-Alternatively, specify training parameters:
-
-```bash
-./cpu/fnn data/mnist 20 0.01 32
-```
-
-Arguments:
-
-```text
-./cpu/fnn [dataset_directory] [epochs] [learning_rate] [batch_size]
-```
-
-Default parameters:
-
-| Parameter | Value |
-|-----------|-------|
-| Epochs | 20 |
-| Learning rate | 0.01 |
-| Batch size | 32 |
-| Training split | 80% |
-| Validation split | 20% |
-| Random seed | 39 |
-
-To change the network architecture, dataset split, or number of saved predictions, edit `cpu/main.c` and rebuild with `make -C cpu`.
-
-## 3. Generate Figures
-
-After training, run:
-
-```bash
-./scripts/plot.sh
-```
-
-Or directly:
-
-```bash
-python3 scripts/plot.py
-```
-
-This generates:
-
-- Training and validation accuracy curves.
-- Training and validation loss curves.
-- Representative correct and incorrect classifications.
-- A PNG contact sheet of the selected MNIST digits.
-
-The contact sheet retains 10 columns regardless of sample count.
-
-## 4. View Results
-
-Open the MNIST digit grid:
-
-```bash
-xdg-open outputs/test_digits.png
-```
-
-Open the scientific figures:
-
-```bash
-xdg-open outputs/figures/accuracy.pdf
-xdg-open outputs/figures/loss.pdf
-xdg-open outputs/figures/classifications.pdf
-```
-
-Figures are exported as PNG, PDF, and SVG.
-
-## 5. Output Files for New Runs
-
-| File | Description |
-|------|-------------|
-| `outputs/metrics.csv` | Training and validation metrics |
-| `outputs/predictions.csv` | True and predicted digit labels |
-| `outputs/test_digits.pgm` | Original MNIST contact sheet |
-| `outputs/test_digits.png` | PNG version of the contact sheet |
-| `outputs/figures/accuracy.*` | Accuracy versus epoch |
-| `outputs/figures/loss.*` | Cross-entropy loss versus epoch |
-| `outputs/figures/classifications.*` | Correct and incorrect classification examples |
-
-The complete MNIST test set (10,000 images) is used for final evaluation. Saved prediction examples are a selected subset for visualization.
-
-## 6. Quick Workflow
-
-For subsequent experiments:
+Linux/Jetson requires GCC, GNU Make and nvcc. The measured Orin Nano is CC8.7;
+`sm_87` is appropriate for that board.
 
 ```bash
 make -C cpu
-./cpu/fnn data/mnist 20 0.01 32
-./scripts/plot.sh
-```
-
-The training and visualization results are saved automatically under `outputs/`.
-
-## 7. Repository Layout
-
-The FNN project root is now the repository root. All commands in this README
-start from that repository root. `make -C cpu run` also executes from that root,
-so data and outputs remain under `data/` and `outputs/`. The CPU implementation,
-architecture, training settings, and all CUDA source contents are unchanged.
-
-```text
-./  (repository / FNN project root)
-├── cpu/                              main.c, Makefile, include/, src/
-├── scripts/                           download and visualization scripts
-├── cuda_00_baseline/                  CUDA baseline
-├── cuda_01_tiling_attempt/             original broad GEMM tiling attempt
-├── cuda_01_selective_tiling/           final opt1: eligible dA1 tiling
-├── cuda_02_forward_fusion/             opt2: forward fusion
-├── cuda_03_register_reuse/             opt3: dW1 two-output register reuse
-├── data/                              download instructions (MNIST not bundled)
-├── outputs/                           future run outputs
-├── results/
-│   ├── cpu/{baseline,smoke,outputs_snapshot}/
-│   ├── cuda_baseline/{training_20ep,smoke,logs,profiling}/
-│   ├── opt1/{tiling_attempt,selective}/
-│   ├── opt2/                          comparisons, formal, checks, profiling
-│   └── opt3/                          comparisons, formal, checks, profiling
-└── docs/                              inventories, move and removal manifests
-```
-
-[Results index](results/README.md) describes the preserved experiments and their
-configuration names. [Data preparation](data/README.md) documents the original
-MNIST download source. [File moves](docs/file_moves.csv) maps original paths to
-current paths with original SHA-256 hashes. Entries marked `removed_local_only`
-were removed during the final upload cleanup; their destination is blank.
-[Removal manifest](docs/removed_files.csv) records removed files and any identical
-retained copies.
-[Organization notes](ORGANIZATION.md) record verification and provenance limits.
-
-Historical CPU outputs were moved to `results/cpu/outputs_snapshot/`. This is a
-snapshot, not proof that its logs and metrics came from one run. No snapshots
-were deduplicated. The output paths in sections 3–6 describe new CPU runs: run
-training before plotting. CUDA source default output paths remain valid;
-explicit paths in the examples below keep new runs separate from saved results.
-
-## 8. CUDA Build, Check, and Training
-
-CUDA builds require `nvcc` and a compatible NVIDIA GPU for execution. The default
-Makefile architecture is `sm_87`; set `ARCH` for your CUDA host when necessary.
-The following loop builds each version and runs its original numerical checks:
-
-```bash
-for variant in cuda_00_baseline cuda_01_tiling_attempt cuda_01_selective_tiling cuda_02_forward_fusion cuda_03_register_reuse; do
-    make -C "$variant" && make -C "$variant" check || break
+make -C incremental host-check
+python3 tests/test_cpu_output.py cpu/fnn
+export PATH=/usr/local/cuda/bin:$PATH
+for v in cuda_00_baseline cuda_01_selective_tiling cuda_02_forward_fusion cuda_03_register_reuse; do
+    make -C "$v" ARCH=sm_87 && make -C "$v" ARCH=sm_87 check || exit 1
 done
+make -C incremental ARCH=sm_87
+mkdir -p outputs
+CHECK=$(mktemp -d outputs/check_XXXXXX)
+./incremental/fnn_incremental --check "$CHECK/incremental"
 ```
 
-Run each example from the repository root, one at a time after its
-GPU check passes. Each subshell changes into that version's source directory,
-creates its own fresh timestamped output directory, and keeps its log there.
-No example writes new data into `results/`. The examples preserve the original
-20 epochs, learning rate 0.01, batch 32 and version-specific CLI configuration:
+Retained Jetson logs show CPU compilation/output tests, four CUDA numerical
+checks and incremental GPU checks passed, followed by COMPLETED CPU and
+incremental experiments. These are **Jetson executions**, not GPU checks on the
+local integration machine. No training or remote operation was performed during
+the local result integration.
+
+## Data and independent training outputs
+
+MNIST is not committed. Prepare the original IDX files using
+`bash scripts/download_mnist.sh`, or use an existing dataset directory.
 
 ```bash
-# cuda_00_baseline
-(
-    set -e -o pipefail
-    cd cuda_00_baseline
-    mkdir -p ../outputs/cuda_baseline
-    run_dir=$(mktemp -d "../outputs/cuda_baseline/full_$(date +%Y%m%d_%H%M%S)_XXXXXX")
-    ./fnn_cuda ../data/mnist 20 0.01 32 "$run_dir" 128 2>&1 | tee "$run_dir/train.log"
-    echo "$run_dir"
-)
-
-# cuda_01_tiling_attempt
-(
-    set -e -o pipefail
-    cd cuda_01_tiling_attempt
-    mkdir -p ../outputs/opt1/tiling_attempt
-    run_dir=$(mktemp -d "../outputs/opt1/tiling_attempt/full_$(date +%Y%m%d_%H%M%S)_XXXXXX")
-    ./fnn_cuda_opt1 ../data/mnist 20 0.01 32 "$run_dir" 128 16 targeted 2>&1 | tee "$run_dir/train.log"
-    echo "$run_dir"
-)
-
-# cuda_01_selective_tiling
-(
-    set -e -o pipefail
-    cd cuda_01_selective_tiling
-    mkdir -p ../outputs/opt1/selective
-    run_dir=$(mktemp -d "../outputs/opt1/selective/full_$(date +%Y%m%d_%H%M%S)_XXXXXX")
-    ./fnn_cuda_opt1 ../data/mnist 20 0.01 32 "$run_dir" 128 16 targeted 2>&1 | tee "$run_dir/train.log"
-    echo "$run_dir"
-)
-
-# cuda_02_forward_fusion
-(
-    set -e -o pipefail
-    cd cuda_02_forward_fusion
-    mkdir -p ../outputs/opt2
-    run_dir=$(mktemp -d "../outputs/opt2/full_$(date +%Y%m%d_%H%M%S)_XXXXXX")
-    ./fnn_cuda_opt2 ../data/mnist 20 0.01 32 "$run_dir" 128 16 targeted on 2>&1 | tee "$run_dir/train.log"
-    echo "$run_dir"
-)
-
-# cuda_03_register_reuse
-(
-    set -e -o pipefail
-    cd cuda_03_register_reuse
-    mkdir -p ../outputs/opt3
-    run_dir=$(mktemp -d "../outputs/opt3/full_$(date +%Y%m%d_%H%M%S)_XXXXXX")
-    ./fnn_cuda_opt3 ../data/mnist 20 0.01 32 "$run_dir" 128 16 targeted on 2 2>&1 | tee "$run_dir/train.log"
-    echo "$run_dir"
-)
+mkdir -p outputs
+./cpu/fnn data/mnist 20 0.01 32 "outputs/cpu_$(date +%Y%m%d_%H%M%S)"
+make -C cpu run OUT="outputs/cpu_$(date +%Y%m%d_%H%M%S)"
+./cuda_03_register_reuse/fnn_cuda_opt3 data/mnist 20 0.01 32 \
+    "outputs/opt3_$(date +%Y%m%d_%H%M%S)" 128 16 targeted on 2
 ```
 
-Variant details: [baseline](cuda_00_baseline/README.md),
-[initial tiling](cuda_01_tiling_attempt/README.md),
-[final selective tiling](cuda_01_selective_tiling/README.md),
-[forward fusion](cuda_02_forward_fusion/README.md), and
-[register reuse](cuda_03_register_reuse/README.md).
-The restored selective source uses `fnn_cuda_opt1.cu`, matching its original
-Makefile. The redundant earlier copy with a filename suffix was removed during upload cleanup.
+CPU CLI: `./cpu/fnn [dataset] [epochs] [lr] [batch] [output_directory]`.
+Original CSV fields/process-clock logs remain; `cpu_process_s` and
+`epoch_wall_s` are additional fields. Existing output files are refused.
+The individual CUDA READMEs retain their version-specific training examples.
 
-On the organizing Mac, `nvcc` is unavailable. CUDA compilation and GPU execution
-are unverified. `make -n -B` validates dependency resolution and displays commands;
-it does not compile CUDA. No training or profiling was run during organization.
+## Checkpoint and incremental training
 
-## 9. GitHub Upload Scope
+```bash
+mkdir -p outputs
+RUN=$(mktemp -d outputs/incremental_XXXXXX)
+./incremental/fnn_incremental initial data/mnist "$RUN/b_initial" 10
+# Deliberate separate process; only the previously unused 8,000 training IDs:
+./incremental/fnn_incremental new data/mnist "$RUN/b_new" 5 "$RUN/b_initial/epoch_10.ckpt"
+# Same-stage resume: EPOCHS is the number of additional epochs.
+# ./incremental/fnn_incremental resume data/mnist outputs/new_resume 3 PATH_TO_EPOCH_7.ckpt
+```
 
-`.gitignore` excludes downloaded MNIST, compiled artifacts, raw profiler reports,
-SQLite databases, caches, and all of `local_archive/`. Formal logs, CSV data,
-text summaries and figures remain eligible for upload. Local archives, caches,
-and downloaded MNIST files have been removed from this upload copy. Run the
-download script before training. Ignore rules do not automatically untrack files already tracked by Git.
-The earlier upload-preparation backup had no Git repository. This repository
-retains its original Git history and fork relationship; the root migration is
-a normal commit, without a history rewrite.
+The fixed training partition is split into 40,000 initial and 8,000 new images;
+validation/test stay fixed. Checkpoints contain all weights/biases, architecture,
+configuration, epoch/update count, shuffle RNG, active order and split IDs.
+Plain SGD has no momentum state. Loading checks shape, length, integrity,
+finite values and split identity; existing checkpoints are not replaced.
+Warm-up performs no parameter update. Checkpoint payloads remain local and are
+excluded from Git; keep the original result archive as backup.
 
-The final upload tree was independently checked against the user-designated
-original backup. See [original comparison report](docs/original_audit.md) for
-source/evidence hashes, exclusions and build-validation limits.
+For serial checks followed by training, use
+`ARCH=sm_87 DATA="$PWD/data/mnist" bash scripts/jetson_experiments.sh cpu-only`,
+or mode `incremental` / `all-five`. The runner records PID, source/data hashes,
+logs and status in a new `outputs/experiments/` directory. Background launch
+alone is not completion; see the runbook for detached launch/status commands.
 
-## Root migration and historical audit records
+## Reproduce analysis without training
 
-Other course projects and the old root README were backed up outside the
-repository before removal from the working tree. Source and historical experiment
-contents were preserved. See [root migration validation](docs/root_migration.md).
+```bash
+python3 -m pip install -r requirements-analysis.txt
+python3 scripts/analyze_time_accuracy.py --out "outputs/reproduced_$(date +%Y%m%d_%H%M%S)"
+python3 -m unittest discover -s tests -p 'test_analysis.py'
+python3 -m unittest discover -s tests -p 'test_results.py'
+```
 
-Existing audit CSV/Markdown files under `docs/` and `ORGANIZATION.md` are original
-records of prior organization steps and remain byte-identical. Their old local
-paths, `FNN/` prefixes, README hashes and prior no-commit statements describe
-those earlier snapshots. To locate retained project files after this migration,
-remove the leading `FNN/` from a repository path; do not apply that rule to
-URLs pinned to older commits. New checks and current README hashes are documented
-separately in the root migration report.
+This is the single formal analysis implementation. It reads repository-relative
+original results, selects only the designated CPU wall-time run and final CUDA
+settings, and exports five PNG/vector-PDF pairs. Use `--no-plots` for CSV-only
+checks or `--png-only` if optional PDF dependencies are unavailable. The supplied
+vector PDFs are retained unchanged. Output directories must be new.
+No GPU, training or archived absolute path is needed for analysis.
 
-## CPU directory migration
+## Measured results and limits
 
-The CPU source now lives in `cpu/`; CUDA Makefiles use `../cpu/src/` and
-`../cpu/include/`. Scripts already resolve the repository root and need no path
-changes. Historical manifests, logs and pinned source links retain their original
-paths. For current CPU files in those manifests, map root `main.c`, `Makefile`,
-`include/` and `src/` into `cpu/`. See [migration validation](docs/cpu_migration.md)
-for checks and Jetson rebuild commands.
+Primary time is **cumulative measured epoch wall time**: shuffle, training and
+post-epoch training/validation evaluation; it excludes setup, warm-up, final test
+and export. GPU completion precedes stopping the timer. This is different from
+Opt3's approximately **442 ms/epoch train_GPU** steady-state event measure.
+
+| Version | Timing runs | First ≥95% wall time (s) | First ≥96% wall time (s) | First ≥96% epoch |
+|---|---:|---:|---:|---:|
+| CPU | 1 | 319.108336923 | 493.208834642 | 17 |
+| CUDA baseline | 1 | 9.386114114 | 15.340387537 | 18 |
+| Opt1 selective | 3 | 8.567541537 | 14.013447661 | 18 |
+| Opt2 fusion | 3 | 7.888520655 | 12.907159669 | 18 |
+| Opt3 register reuse | 3 | 7.460290254 | 12.207741468 | 18 |
+
+Opt1–3 are same-seed timing repeats, not independent convergence seeds.
+Thresholds are found within each actual run before averaging; no smoothing,
+interpolated crossing time or forced common crossing epoch is used.
+Historical CUDA runs lack exact build/dataset provenance; temperature,
+frequency and power were not controlled across dates.
+
+Incremental validation accuracy changes from **94.4916667% to 94.8250%**,
+a gain of **0.3333333 percentage points**. Five new-data epochs take
+**0.760827039 s** for training plus evaluation; new-stage process wall time is
+**1.68254 s**. Final test accuracy is **95.60%**. This demonstrates loading learned
+parameters and learning from new data. It does not establish superiority over
+training from scratch, solve catastrophic forgetting, or prove every course
+assignment requirement has been completed.
+
+## Upload scope and history
+
+Include source, documentation, retained CSV/log/provenance and figures.
+Exclude MNIST, binaries/build/cache, raw profiler reports/databases, downloaded
+archives and checkpoints. Ignore rules do not automatically untrack files.
+CSV/log/PDF/PNG and the full `results/` tree are not blanket-ignored.
+
+[Organization notes](ORGANIZATION.md), [root migration](docs/root_migration.md)
+and [original audit](docs/original_audit.md) retain their historical path/hash
+records. Absolute paths in original logs/run_info remain evidence only;
+current reproduction uses the relative retained source manifest.
