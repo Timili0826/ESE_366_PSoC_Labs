@@ -16,7 +16,7 @@ developed on top of that CPU baseline.
 
 The preserved [CPU reference snapshot](https://github.com/Timili0826/ESE_366_PSoC_Labs/tree/62e4aee6af94989494c78b25bf62a49c138df2fc/FNN)
 uses the historical `FNN/` path at its pinned commit. Current project files live
-directly at the repository root. The random seed is **39**, as in the existing
+under `cpu/` for the CPU implementation, with CUDA stages and shared data at the repository root. The random seed is **39**, as in the existing
 code. No license file or declared license was present in the migrated repository;
 this reorganization does not introduce or change licensing terms.
 
@@ -39,25 +39,25 @@ python3 -m pip install numpy matplotlib pillow
 Compile the C implementation:
 
 ```bash
-make
+make -C cpu
 ```
 
 Train with default parameters:
 
 ```bash
-make run
+make -C cpu run
 ```
 
 Alternatively, specify training parameters:
 
 ```bash
-./fnn data/mnist 20 0.01 32
+./cpu/fnn data/mnist 20 0.01 32
 ```
 
 Arguments:
 
 ```text
-./fnn [dataset_directory] [epochs] [learning_rate] [batch_size]
+./cpu/fnn [dataset_directory] [epochs] [learning_rate] [batch_size]
 ```
 
 Default parameters:
@@ -71,7 +71,7 @@ Default parameters:
 | Validation split | 20% |
 | Random seed | 39 |
 
-To change the network architecture, dataset split, or number of saved predictions, edit `main.c` and rebuild with `make`.
+To change the network architecture, dataset split, or number of saved predictions, edit `cpu/main.c` and rebuild with `make -C cpu`.
 
 ## 3. Generate Figures
 
@@ -133,8 +133,8 @@ The complete MNIST test set (10,000 images) is used for final evaluation. Saved 
 For subsequent experiments:
 
 ```bash
-make
-./fnn data/mnist 20 0.01 32
+make -C cpu
+./cpu/fnn data/mnist 20 0.01 32
 ./scripts/plot.sh
 ```
 
@@ -143,12 +143,13 @@ The training and visualization results are saved automatically under `outputs/`.
 ## 7. Repository Layout
 
 The FNN project root is now the repository root. All commands in this README
-start from that repository root. The CPU implementation,
+start from that repository root. `make -C cpu run` also executes from that root,
+so data and outputs remain under `data/` and `outputs/`. The CPU implementation,
 architecture, training settings, and all CUDA source contents are unchanged.
 
 ```text
 ./  (repository / FNN project root)
-├── main.c, Makefile, include/, src/    CPU implementation
+├── cpu/                              main.c, Makefile, include/, src/
 ├── scripts/                           download and visualization scripts
 ├── cuda_00_baseline/                  CUDA baseline
 ├── cuda_01_tiling_attempt/             original broad GEMM tiling attempt
@@ -291,3 +292,12 @@ those earlier snapshots. To locate retained project files after this migration,
 remove the leading `FNN/` from a repository path; do not apply that rule to
 URLs pinned to older commits. New checks and current README hashes are documented
 separately in the root migration report.
+
+## CPU directory migration
+
+The CPU source now lives in `cpu/`; CUDA Makefiles use `../cpu/src/` and
+`../cpu/include/`. Scripts already resolve the repository root and need no path
+changes. Historical manifests, logs and pinned source links retain their original
+paths. For current CPU files in those manifests, map root `main.c`, `Makefile`,
+`include/` and `src/` into `cpu/`. See [migration validation](docs/cpu_migration.md)
+for checks and Jetson rebuild commands.

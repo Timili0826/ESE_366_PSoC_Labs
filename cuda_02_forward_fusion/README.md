@@ -16,7 +16,7 @@ The source's documented CLI defaults remain unchanged.
 
 Install `cuda_02_forward_fusion/` at the repository root, beside
 `cuda_01_selective_tiling/`. All prior code and experiment results remain unchanged.
-The build links the existing `../src/` and `../include/` C reference.
+The build links the existing `../cpu/src/` and `../cpu/include/` C reference.
 
 CPU reference commit:
 https://github.com/Timili0826/ESE_366_PSoC_Labs/tree/62e4aee6af94989494c78b25bf62a49c138df2fc/FNN

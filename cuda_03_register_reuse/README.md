@@ -73,7 +73,7 @@ a valid result to retain in the optimization report.
 ```
 
 Build flags match opt2: `-O2 -lineinfo -std=c++14 -arch=sm_87`. The build uses
-the existing `../src/` and `../include/` CPU implementation, which is unchanged:
+the existing `../cpu/src/` and `../cpu/include/` CPU implementation, which is unchanged:
 https://github.com/Timili0826/ESE_366_PSoC_Labs/tree/62e4aee6af94989494c78b25bf62a49c138df2fc/FNN
 
 This is a pinned historical CPU reference, whose `FNN/` path was valid at

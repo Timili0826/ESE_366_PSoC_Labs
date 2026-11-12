@@ -83,8 +83,8 @@ block rather than printing the unused tiled kernel configuration.
 ```
 
 The build uses the same flags as the baseline/initial opt1:
-`-O2 -lineinfo -std=c++14 -arch=sm_87`. It links the existing `../src/` C
-reference and `../include/` headers, without changing them.
+`-O2 -lineinfo -std=c++14 -arch=sm_87`. It links the existing `../cpu/src/` C
+reference and `../cpu/include/` headers, without changing them.
 
 CPU source reference:
 https://github.com/Timili0826/ESE_366_PSoC_Labs/tree/62e4aee6af94989494c78b25bf62a49c138df2fc/FNN

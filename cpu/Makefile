@@ -7,7 +7,7 @@ all: fnn
 fnn: $(SRCS) $(wildcard include/*.h)
 	$(CC) $(CFLAGS) $(SRCS) -o $@ $(LDFLAGS)
 run: fnn
-	mkdir -p outputs
-	./fnn
+	mkdir -p ../outputs
+	cd .. && ./cpu/fnn data/mnist
 clean:
 	rm -f fnn *.o src/*.o

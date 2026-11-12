@@ -14,7 +14,7 @@ records under `../results/` are read-only references. Timestamped run directorie
 are created with `mktemp -d` so repeated invocations cannot reuse an existing run.
 The source's documented CLI defaults remain unchanged.
 
-Place `cuda_01_tiling_attempt/` beside `cuda_00_baseline/` at the repository root. The package uses the existing `../src/` and `../include/`
+Place `cuda_01_tiling_attempt/` beside `cuda_00_baseline/` at the repository root. The package uses the existing `../cpu/src/` and `../cpu/include/`
 CPU reference. It does not modify the CPU implementation or CUDA baseline.
 
 CPU reference commit:

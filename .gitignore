@@ -10,7 +10,8 @@ __pycache__/
 *.a
 *.so
 *.dylib
-/fnn
+/cpu/fnn
+/cpu/fnn.exe
 /cuda_*/fnn_cuda
 /cuda_*/fnn_cuda_opt[123]
 

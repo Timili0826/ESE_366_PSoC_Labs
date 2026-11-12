@@ -25,7 +25,7 @@ that commit. The current FNN project root is the repository root. See the
 [root attribution](../README.md#origin-and-attribution) for the classmate
 CPU baseline and the CUDA work built on it.
 
-The build links the repository's `src/{activation,dataset,layer,loss,network}.c`
+The build links the repository's `cpu/src/{activation,dataset,layer,loss,network}.c`
 and headers as C objects. They provide the dataset parser, split/shuffle,
 initialization, and independent CPU reference used by `--check`.
 
