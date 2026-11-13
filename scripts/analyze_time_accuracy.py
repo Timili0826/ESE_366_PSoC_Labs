@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Audit raw runs, then plot observed post-epoch validation accuracy only.
+"""Select comparable runs, then plot observed post-epoch validation accuracy only.
 No clock(), GPU-event-only time, total/epochs estimates, interpolation or smoothing.
 """
 import argparse
 import csv
-import hashlib
 import json
 import math
 import statistics
@@ -19,16 +18,13 @@ VERSIONS = {
     'opt3': ('Opt3 register reuse', 'cuda_03_register_reuse/fnn_cuda_opt3.cu'),
 }
 CPU_RUN = ROOT/'results/cpu/wall_time_20261112/metrics.csv'
-INCREMENTAL_RUN = ROOT/'results/incremental/20261112'
+INCREMENTAL_RUN = ROOT/'results/incremental_training'
 
 def relative(path):
     return Path(path).resolve().relative_to(ROOT.resolve()).as_posix()
 
 PLOT_FORMATS = ('png','pdf')
 TIMING = 'monotonic wall: shuffle + train + post-epoch train/validation evaluation; excludes setup/warmup/final test/export'
-
-def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else ''
 
 def read_info(path):
     if not path.exists():
@@ -65,7 +61,7 @@ def logs_for(path):
         candidates.append(path.parent/'train_full.log')
     return sorted(set(p for p in candidates if p.is_file()))
 
-def audit(paths):
+def select_runs(paths):
     manifest, data, seen = [], [], set()
     for path in sorted(set(p.resolve() for p in paths)):
         info = read_info(path.parent/'run_info.txt')
@@ -84,7 +80,7 @@ def audit(paths):
             reasons.append('profiling/smoke/failed attempt/duplicate snapshot')
         if len(rows) != 20 or [r.get('epoch') for r in rows] != [str(i) for i in range(1,21)]:
             reasons.append('not a complete 20-epoch run')
-        signature = (variant, digest(path))
+        signature = (variant, path.read_bytes())
         if signature in seen:
             reasons.append('byte-identical metrics duplicate')
         # Only canonical historical CPU is admitted without run_info, for epoch plot only.
@@ -129,16 +125,12 @@ def audit(paths):
             seen.add(signature)
         source = ROOT/VERSIONS[variant][1] if variant else None
         entry = dict(run_id=relative(path.parent), version=variant or 'excluded', metrics_path=relative(path),
-                     metrics_sha256=digest(path), retained_source_hash_record=next((relative(q) for q in [path.parent/'source_sha256.txt',path.parent.parent/'source_sha256.txt'] if q.is_file()),''), retained_environment_record=next((relative(q) for q in [path.parent/'environment.txt',path.parent.parent/'environment.txt'] if q.is_file()),''), logs=';'.join(relative(p) for p in logs),
-                     run_info=relative(path.parent/'run_info.txt') if info else '', source_path=relative(source) if source else '',
-                     current_source_sha256=digest(source) if source else '',
-                     source_cpu_commit=info.get('source_cpu_commit', (path.parent/'commit.txt').read_text().strip() if (path.parent/'commit.txt').exists() else 'unrecorded'),
-                     recorded_build_base_commit=info.get('source_commit','unrecorded; current source hash is not historical build proof'),
-                     parameters=json.dumps({k:v for k,v in info.items() if k not in ('source_manifest','dataset_manifest','checkpoint_source','checkpoint')}, sort_keys=True), data_split='48000/12000/10000' if split_ok else 'unverified',
-                     profiler='profiling path' if 'profiling' in low else info.get('profiler','not recorded; non-profiling formal/training directory'),
-                     timing_definition=TIMING if wall_ok else 'CPU process clock or no valid epoch wall time; excluded from time plots',
-                     timing_evidence='current source steady_clock before shuffle; evaluation ends in synchronous D2H metrics read' if wall_ok and variant!='cpu' else info.get('timing','historical CPU clock()'),
-                     eligible_accuracy=eligible, eligible_time=eligible and wall_ok,
+                     logs=';'.join(relative(p) for p in logs),run_info=relative(path.parent/'run_info.txt') if info else '',
+                     source_path=relative(source) if source else '',
+                     parameters=json.dumps({k:info[k] for k in ['architecture','epochs','seed','lr','batch','threads','tile','gemm_policy','forward_fusion','dw1_rows_per_thread'] if k in info},sort_keys=True),
+                     data_split='48000/12000/10000' if split_ok else 'unverified',
+                     timing_definition=TIMING if wall_ok else 'no comparable epoch wall time',
+                     eligible_accuracy=eligible,eligible_time=eligible and wall_ok,
                      reason='; '.join(reasons + ([] if wall_ok else ['missing comparable epoch wall time'])))
         manifest.append(entry)
         if eligible:
@@ -153,8 +145,6 @@ def audit(paths):
     return manifest, data
 
 def analyze(manifest, data, out, plots=True):
-    write_csv(out/'selection_audit.csv', manifest)
-    write_csv(out/'source_manifest.csv', [m for m in manifest if m['eligible_accuracy']])
     write_csv(out/'epoch_observations.csv', data)
     tta=[]
     for m in manifest:
@@ -196,7 +186,6 @@ def analyze(manifest, data, out, plots=True):
             speedups.append(dict(reference=reference,version=row['version'],threshold_pct=row['threshold_pct'],reference_n=ref['n_timed_reached'],version_n=row['n_timed_reached'],speedup_ratio_of_mean_time_to_accuracy=ref['mean_wall_s']/row['mean_wall_s'],definition='ratio of observed per-run mean threshold epoch wall times; not steady-state train_GPU speedup'))
     write_csv(out/'time_to_accuracy_speedup.csv',speedups,['reference','version','threshold_pct','reference_n','version_n','speedup_ratio_of_mean_time_to_accuracy','definition'])
     missing=[v for v in VERSIONS if not any(m['version']==v and m['eligible_time'] for m in manifest)]
-    (out/'limitations.txt').write_text('Missing comparable time data: '+', '.join(missing)+'\nOnly the designated formal CPU run is counted. CPU/GPU time speedup uses measured epoch wall time.\nHistorical sources have no exact CUDA build commit or dataset hashes; provenance is limited to retained run_info, logs and current source review.\nProfiling/smoke/control configurations and duplicate snapshots are excluded. Same-seed trials measure timing repeatability only. Curves join epoch observations without smoothing or extrapolation.\nTime-to-accuracy includes shuffle, train and evaluation; it is not steady-state train_GPU speedup.\n',encoding='utf-8')
     if not plots:
         return
     import matplotlib
@@ -242,14 +231,14 @@ def main():
     paths=list((ROOT/'results').rglob('metrics.csv'))
     for root in a.extra_root:
         paths.extend(root.rglob('metrics.csv'))
-    manifest,data=audit(paths);analyze(manifest,data,a.out,not a.no_plots)
+    manifest,data=select_runs(paths);analyze(manifest,data,a.out,not a.no_plots)
     if a.incremental_root:
         plot_incremental(a.incremental_root,a.out,not a.no_plots)
     print('Saved analysis to',a.out)
 
 def plot_incremental(root,out,plots=True):
     rows=[]
-    for stage in ['b_initial','b_new']:
+    for stage in ['initial_training','new_data_training']:
         path=root/stage/'metrics.csv'
         info=read_info(path.parent/'run_info.txt')
         if info.get('completed')!='true':
@@ -257,8 +246,8 @@ def plot_incremental(root,out,plots=True):
         with path.open() as stream:
             for row in csv.DictReader(stream):
                 row['stage']=stage;rows.append(row)
-    first=[r for r in rows if r['stage']=='b_initial' and r['event']=='epoch_end']
-    second=[r for r in rows if r['stage']=='b_new']
+    first=[r for r in rows if r['stage']=='initial_training' and r['event']=='epoch_end']
+    second=[r for r in rows if r['stage']=='new_data_training']
     if len(first)!=10 or len([r for r in second if r['event']=='epoch_end'])!=5:
         raise ValueError('Expected 10 initial epochs and 5 new-data epochs')
     if second[0]['event']!='loaded_before_update' or abs(float(first[-1]['val_accuracy'])-float(second[0]['val_accuracy']))>1e-10 or abs(float(first[-1]['val_loss'])-float(second[0]['val_loss']))>1e-10:
@@ -268,17 +257,17 @@ def plot_incremental(root,out,plots=True):
     if abs(float(first[-1]['cumulative_epoch_wall_s'])-float(second[0]['cumulative_epoch_wall_s']))>1e-8:
         raise ValueError('Stage wall time discontinuity')
     summary=[]
-    for stage in ['b_initial','b_new']:
+    for stage in ['initial_training','new_data_training']:
         rr=[r for r in rows if r['stage']==stage];ends=[r for r in rr if r['event']=='epoch_end'];info=read_info(root/stage/'run_info.txt')
-        summary.append(dict(stage=stage,training_samples=int(ends[0]['active_train_count']),epochs=len(ends),parameter_updates=int(ends[-1]['total_updates'])-int(rr[0]['total_updates']),validation_accuracy_before_pct=100*float(rr[0]['val_accuracy']),validation_accuracy_after_pct=100*float(ends[-1]['val_accuracy']),validation_loss_after=float(ends[-1]['val_loss']),training_event_sum_s=sum(float(r['train_gpu_ms'])/1000 for r in ends),epoch_wall_sum_s=sum(float(r['epoch_wall_s']) for r in ends),process_wall_s_before_cleanup=float(info['process_wall_s_before_cleanup']),final_test_accuracy_pct=100*float(info['final_test_accuracy']) if stage=='b_new' else ''))
+        summary.append(dict(stage=stage,training_samples=int(ends[0]['active_train_count']),epochs=len(ends),parameter_updates=int(ends[-1]['total_updates'])-int(rr[0]['total_updates']),validation_accuracy_before_pct=100*float(rr[0]['val_accuracy']),validation_accuracy_after_pct=100*float(ends[-1]['val_accuracy']),validation_loss_after=float(ends[-1]['val_loss']),training_event_sum_s=sum(float(r['train_gpu_ms'])/1000 for r in ends),epoch_wall_sum_s=sum(float(r['epoch_wall_s']) for r in ends),process_wall_s_before_cleanup=float(info['process_wall_s_before_cleanup']),final_test_accuracy_pct=100*float(info['final_test_accuracy']) if stage=='new_data_training' else ''))
     write_csv(out/'incremental_summary.csv',summary)
     write_csv(out/'incremental_observations.csv',rows)
     if not plots:
         return
     import matplotlib.pyplot as plt
     fig,axs=plt.subplots(1,2,figsize=(10.4,4.8),layout='constrained')
-    for stage,label,color in [('b_initial','Initial 40000 x 10','#0072B2'),('b_new','New 8000 x 5','#E69F00')]:
-        rr=[r for r in rows if r['stage']==stage and (stage=='b_new' or r['event']=='epoch_end')]
+    for stage,label,color in [('initial_training','Initial 40000 x 10','#0072B2'),('new_data_training','New 8000 x 5','#E69F00')]:
+        rr=[r for r in rows if r['stage']==stage and (stage=='new_data_training' or r['event']=='epoch_end')]
         axs[0].plot([float(r['cumulative_epoch_wall_s']) for r in rr],[100*float(r['val_accuracy']) for r in rr],marker='o',label=label,color=color)
     arrival=float(second[0]['cumulative_epoch_wall_s'])
     axs[0].axvline(arrival,color='gray',linestyle='--',label='New data arrives')

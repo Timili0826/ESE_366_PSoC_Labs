@@ -33,7 +33,7 @@ __pycache__/
 # Incremental executable and local experiment outputs
 /incremental/fnn_incremental
 /incremental/fnn_incremental.exe
-/outputs/experiments/
+/outputs/
 
 # Local downloaded input packages and all model checkpoint payloads
 *.zip
@@ -45,7 +45,6 @@ __pycache__/
 /cuda_*/fnn_cuda.exe
 /cuda_*/fnn_cuda_opt[123].exe
 # Superseded local preliminary figures, not the curated results/
-/outputs/time_accuracy_*/
 
 # MNIST directory or symlink, and exact raw IDX payload names anywhere
 /data/mnist

@@ -1,24 +1,17 @@
-# CPU monotonic wall-time run — 2026-11-12
+# CPU wall-time experiment
 
-One formal run: MNIST 48000/12000/10000, 784-128-64-10 FP32, SGD lr=0.01,
-batch=32, seed=39, 20 epochs. Imported byte-for-byte from `timeinc_results.tar.gz`;
-the old `results/cpu/baseline/` is unchanged and is not a second timing repeat.
+One 20-epoch run on Jetson Orin Nano: MNIST 48,000/12,000/10,000,
+784-128-64-10 FP32, SGD lr=0.01, batch=32, seed=39.
+Each epoch includes shuffle, training and post-epoch training/validation evaluation;
+setup, final test and export are outside the timing interval.
 
-Jetson Orin Nano CC8.7 (`ARCH=sm_87`), CUDA12.6/GCC11.4: `status.txt` is COMPLETED.
-`runner.log` records CPU compilation/output tests, host checkpoint checks, four
-CUDA numerical checks and incremental GPU PASS before training. These are retained
-Jetson executions, not new local GPU validation.
+The first 95% validation accuracy is at epoch 11, 319.108336923s;96% is at epoch 17,
+493.208834642s. The 20 epochs total 580.215648411s. The separate process clock
+field is not used in the wall-time comparison. Older CPU records are not
+additional timing repeats.
 
-From the repository root, inspect `metrics.csv`, `train.log`, `run_info.txt`,
-`environment.txt`, `source_sha256.txt`, and `incremental_checks/PASS.txt` here.
-The imported run_info's remote absolute paths are retained as original provenance;
-the active analysis manifest resolves the local retained files using relative paths.
-
-Each epoch wall time includes shuffle, training, training/validation evaluation.
-Setup, warm-up, final test and export are outside this scope. First 95%: epoch11,
-319.108336923s; first96%: epoch17,493.208834642s. Total20 epochs:580.215648411s.
-The separate process clock field is not used as the comparison time.
-
-Reproduce from the repository root with `python3 scripts/analyze_time_accuracy.py
---out outputs/reproduced_cpu_analysis` (use a new output directory).
-Raw import hashes are in `docs/timeinc_import_manifest.csv`.
+metrics.csv contains the measurements; train.log/run_info.txt describe the run.
+runner.log and incremental_checks/PASS.txt retain the numerical checks;
+status.txt is COMPLETED and environment.txt identifies the test system.
+Reproduce analysis from the repository root using
+`python3 scripts/analyze_time_accuracy.py --out outputs/new_analysis`.

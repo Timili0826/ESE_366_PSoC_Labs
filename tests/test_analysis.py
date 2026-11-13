@@ -19,7 +19,7 @@ class AnalysisTests(unittest.TestCase):
             self.assertEqual(rows[0]['epoch'],'1');self.assertEqual(float(rows[0]['cumulative_epoch_wall_s']),3)
             self.assertEqual(rows[1]['status'],'not_reached');self.assertEqual(rows[2]['status'],'not_reached')
     def test_history_selection(self):
-        manifest,data=a.audit(list((ROOT/'results').rglob('metrics.csv')))
+        manifest,data=a.select_runs(list((ROOT/'results').rglob('metrics.csv')))
         for v,n in [('cpu',1 if a.CPU_RUN.exists() else 0),('baseline',1),('opt1',3),('opt2',3),('opt3',3)]:
             self.assertEqual(sum(m['version']==v and m['eligible_time'] for m in manifest),n)
         self.assertFalse(any(m['eligible_time'] and any(x in m['metrics_path'] for x in ['profiling','tiling_attempt','smoke','outputs_snapshot']) for m in manifest))

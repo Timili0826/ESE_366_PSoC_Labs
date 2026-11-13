@@ -35,10 +35,7 @@ done
     nvcc --version; gcc --version | head -n 1
     git rev-parse HEAD; git status --short
     printf 'ARCH=%s\nDATA=%s\nMODE=%s\n' "$ARCH" "$DATA" "$MODE"
-    sha256sum "$DATA/"*ubyte
 } > "$RUN/environment.txt"
-# Snapshot exact local source, including uncommitted edits; do not claim HEAD alone identifies a dirty build.
-find cpu cuda_00_baseline cuda_01_selective_tiling cuda_02_forward_fusion cuda_03_register_reuse incremental scripts tests -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.cu' -o -name '*.py' -o -name '*.sh' -o -name Makefile \) -print0 | sort -z | xargs -0 sha256sum > "$RUN/source_sha256.txt"
 python3 -c 'import struct,sys; from pathlib import Path; p=Path(sys.argv[1]); specs=[("train-images-idx3-ubyte",(2051,60000,28,28),47040016),("train-labels-idx1-ubyte",(2049,60000),60008),("t10k-images-idx3-ubyte",(2051,10000,28,28),7840016),("t10k-labels-idx1-ubyte",(2049,10000),10008)]; [(None if struct.unpack(">"+"I"*len(h),(p/n).read_bytes()[:4*len(h)])==h and (p/n).stat().st_size==size else (_ for _ in ()).throw(ValueError(n))) for n,h,size in specs]; print("Full MNIST IDX counts/shapes/lengths verified")' "$DATA"
 make -C cpu clean
 make -C cpu
@@ -54,30 +51,30 @@ for v in cuda_00_baseline cuda_01_selective_tiling cuda_02_forward_fusion cuda_0
 make -C incremental clean
 make -C incremental ARCH="$ARCH"
 ./incremental/fnn_incremental --check "$RUN/incremental_checks"
-append_provenance() {
+record_run_info() {
     local dir=$1
-    printf '\nsource_commit=%s\nsource_manifest=%s\ndataset_manifest=%s\nprofiler=none\n' "$(git rev-parse HEAD)" "$RUN/source_sha256.txt" "$RUN/environment.txt" >> "$dir/run_info.txt"
+    printf '\nsource_commit=%s\nenvironment_file=%s\nprofiler=none\n' "$(git rev-parse HEAD)" "$RUN/environment.txt" >> "$dir/run_info.txt"
 }
 if [[ "$MODE" == cpu-only || "$MODE" == all-five ]]; then
     ./cpu/fnn "$DATA" 20 0.01 32 "$RUN/a_cpu" 2>&1 | tee "$RUN/a_cpu.log"
-    append_provenance "$RUN/a_cpu"
+    record_run_info "$RUN/a_cpu"
 fi
 if [[ "$MODE" == all-five ]]; then
     ./cuda_00_baseline/fnn_cuda "$DATA" 20 0.01 32 "$RUN/a_baseline" 128 2>&1 | tee "$RUN/a_baseline.log"
-    append_provenance "$RUN/a_baseline"
+    record_run_info "$RUN/a_baseline"
     ./cuda_01_selective_tiling/fnn_cuda_opt1 "$DATA" 20 0.01 32 "$RUN/a_opt1" 128 16 targeted 2>&1 | tee "$RUN/a_opt1.log"
-    append_provenance "$RUN/a_opt1"
+    record_run_info "$RUN/a_opt1"
     ./cuda_02_forward_fusion/fnn_cuda_opt2 "$DATA" 20 0.01 32 "$RUN/a_opt2" 128 16 targeted on 2>&1 | tee "$RUN/a_opt2.log"
-    append_provenance "$RUN/a_opt2"
+    record_run_info "$RUN/a_opt2"
     ./cuda_03_register_reuse/fnn_cuda_opt3 "$DATA" 20 0.01 32 "$RUN/a_opt3" 128 16 targeted on 2 2>&1 | tee "$RUN/a_opt3.log"
-    append_provenance "$RUN/a_opt3"
+    record_run_info "$RUN/a_opt3"
 fi
 if [[ "$MODE" == incremental ]]; then
-    ./incremental/fnn_incremental initial "$DATA" "$RUN/b_initial" 10 2>&1 | tee "$RUN/b_initial.log"
-    append_provenance "$RUN/b_initial"
+    ./incremental/fnn_incremental initial "$DATA" "$RUN/initial_training" 10 2>&1 | tee "$RUN/initial_training.log"
+    record_run_info "$RUN/initial_training"
     # Deliberate separate process; source checkpoint must contain 10 completed initial epochs.
-    ./incremental/fnn_incremental new "$DATA" "$RUN/b_new" 5 "$RUN/b_initial/epoch_10.ckpt" 2>&1 | tee "$RUN/b_new.log"
-    append_provenance "$RUN/b_new"
+    ./incremental/fnn_incremental new "$DATA" "$RUN/new_data_training" 5 "$RUN/initial_training/epoch_10.ckpt" 2>&1 | tee "$RUN/new_data_training.log"
+    record_run_info "$RUN/new_data_training"
 fi
 printf 'COMPLETED\n' > "$RUN/status.txt"
 echo "COMPLETED: $RUN"

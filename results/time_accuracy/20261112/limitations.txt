@@ -1,5 +1,0 @@
-Missing comparable time data:
-Only the designated formal CPU run is counted. CPU/GPU time speedup uses measured epoch wall time.
-Historical sources have no exact CUDA build commit or dataset hashes; provenance is limited to retained run_info, logs and current source review.
-Profiling/smoke/control configurations and duplicate snapshots are excluded. Same-seed trials measure timing repeatability only. Curves join epoch observations without smoothing or extrapolation.
-Time-to-accuracy includes shuffle, train and evaluation; it is not steady-state train_GPU speedup.

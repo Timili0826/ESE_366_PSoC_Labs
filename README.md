@@ -57,9 +57,9 @@ export are excluded. CPU and baseline each have one run; Opt1–3 each have
 three same-seed timing repeats. These measurements are separate from train-only
 GPU event timings and do not measure variation across random seeds.
 
-![Five-version validation accuracy versus cumulative wall time, logarithmic time axis](results/time_accuracy/20261112/figures/validation_accuracy_vs_time_log.png)
+![Five-version validation accuracy versus cumulative wall time, logarithmic time axis](results/time_accuracy/figures/validation_accuracy_vs_time_log.png)
 
-See the [detailed results](results/time_accuracy/20261112/README.md) for
+See the [detailed results](results/time_accuracy/README.md) for
 threshold calculations, other figures and measurement limitations.
 
 A separate incremental experiment loads an existing checkpoint and continues
@@ -97,6 +97,8 @@ mkdir -p outputs
 RUN=$(mktemp -d outputs/opt3_XXXXXX)
 ./cuda_03_register_reuse/fnn_cuda_opt3 data/mnist 20 0.01 32 "$RUN" 128 16 targeted on 2
 ```
+
+Training writes generated files under `outputs/`, which the commands create.
 
 The [usage guide](docs/time_accuracy_incremental.md) covers CPU and other
 versions, checkpoint/resume, correctness checks and plot reproduction.
